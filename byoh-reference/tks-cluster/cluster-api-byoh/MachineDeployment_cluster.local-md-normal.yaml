@@ -1,0 +1,29 @@
+# Source: cluster-api-byoh/templates/machinedeployment.yaml
+apiVersion: cluster.x-k8s.io/v1beta1
+kind: MachineDeployment
+metadata:
+  name: cluster.local-md-normal
+  namespace: byoh-reference
+  annotations:
+    cluster.x-k8s.io/cluster-api-autoscaler-node-group-min-size: "1"
+    cluster.x-k8s.io/cluster-api-autoscaler-node-group-max-size: "5"
+spec:
+  clusterName: cluster.local
+  replicas: 1
+  selector:
+    matchLabels: null
+  template:
+    metadata:
+    spec:
+      bootstrap:
+        configRef:
+          apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
+          kind: KubeadmConfigTemplate
+          name: cluster.local-md-normal
+      clusterName: cluster.local
+      infrastructureRef:
+        apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+        kind: ByoMachineTemplate
+        name: cluster.local-md-normal
+      version: v1.22.3
+

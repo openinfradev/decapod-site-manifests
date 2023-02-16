@@ -1,0 +1,30 @@
+# Source: cluster-api-aws/templates/machine-pool.yaml
+apiVersion: cluster.x-k8s.io/v1beta1
+kind: MachinePool
+metadata:
+  name: cluster.local-mp-taco
+  namespace: aws-msa-reference
+spec:
+  clusterName: cluster.local
+  replicas: 3
+  template:
+    metadata:
+      labels:
+            servicemesh: enabled
+            taco-ingress-gateway: enabled
+            taco-lma: enabled
+    spec:
+      bootstrap:
+        configRef:
+          apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
+          kind: KubeadmConfig
+          name: cluster.local-mp-taco
+          namespace: aws-msa-reference
+      clusterName: cluster.local
+      infrastructureRef:
+        apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
+        kind: AWSMachinePool
+        name: cluster.local-mp-taco
+        namespace: aws-msa-reference
+      version: v1.22.5
+

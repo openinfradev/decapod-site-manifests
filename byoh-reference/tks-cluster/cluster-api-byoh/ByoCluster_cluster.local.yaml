@@ -1,0 +1,13 @@
+---
+# Source: cluster-api-byoh/templates/byo-cluster.yaml
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+kind: ByoCluster
+metadata:
+  name: cluster.local
+  namespace: byoh-reference
+spec:
+  bundleLookupBaseRegistry: projects.registry.vmware.com/cluster_api_provider_bringyourownhost
+  bundleLookupTag: v1.22.3
+  controlPlaneEndpoint:
+    host: TO_BE_FIXED
+    port: TO_BE_FIXED

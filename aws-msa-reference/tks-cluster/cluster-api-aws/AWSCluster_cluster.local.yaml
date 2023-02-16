@@ -1,0 +1,12 @@
+---
+# Source: cluster-api-aws/templates/aws-cluster.yaml
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
+kind: AWSCluster
+metadata:
+  name: cluster.local
+  namespace: aws-msa-reference
+spec:
+  region: CHANGEME
+  sshKeyName: CHANGEME
+  bastion:
+    enabled: false
