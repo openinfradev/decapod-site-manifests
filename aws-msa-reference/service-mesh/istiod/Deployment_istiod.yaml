@@ -40,7 +40,7 @@ spec:
         fsGroup: 1337
       containers:
         - name: discovery
-          image: "istio/pilot:1.13.1"
+          image: "harbor-cicd.taco-cat.xyz/tks/pilot:1.13.1"
           args:
           - "discovery"
           - --monitoringAddr=:15014
