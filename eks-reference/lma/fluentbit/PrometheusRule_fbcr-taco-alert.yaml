@@ -46,3 +46,4 @@ spec:
           expr: taco_logging_system_alert{severity="warning"} == 1
           labels:
             severity: warning
+
