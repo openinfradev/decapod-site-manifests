@@ -26,7 +26,7 @@ spec:
       serviceAccountName: jaeger-operator
       containers:
         - name: jaeger-operator
-          image: "jaegertracing/jaeger-operator:1.29.1"
+          image: "harbor-cicd.taco-cat.xyz/tks/jaeger-operator:1.29.1"
           imagePullPolicy: IfNotPresent
           ports:
           - containerPort: 8383

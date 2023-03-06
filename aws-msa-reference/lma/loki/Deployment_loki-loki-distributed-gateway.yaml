@@ -39,7 +39,7 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
         - name: nginx
-          image: docker.io/nginxinc/nginx-unprivileged:1.19-alpine
+          image: harbor-cicd.taco-cat.xyz/tks/nginx-unprivileged:1.19-alpine
           imagePullPolicy: IfNotPresent
           ports:
             - name: http

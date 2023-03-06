@@ -54,7 +54,7 @@ spec:
       terminationGracePeriodSeconds: 300
       containers:
         - name: ingester
-          image: docker.io/grafana/loki:2.6.1
+          image: harbor-cicd.taco-cat.xyz/tks/loki:2.6.1
           imagePullPolicy: IfNotPresent
           args:
             - -config.file=/etc/loki/config/config.yaml

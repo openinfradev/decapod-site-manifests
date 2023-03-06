@@ -54,7 +54,7 @@ spec:
         fsGroup: 1001
       containers:
         - name: compactor
-          image: docker.io/bitnami/thanos:0.17.2-scratch-r1
+          image: harbor-cicd.taco-cat.xyz/tks/thanos:v0.30.2
           imagePullPolicy: "IfNotPresent"
           securityContext:
             runAsUser: 1001

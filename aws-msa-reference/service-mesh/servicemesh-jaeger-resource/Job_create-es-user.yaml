@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: esuser
-        image: "docker.io/nginxinc/nginx-unprivileged:1.19-alpine"
+        image: "harbor-cicd.taco-cat.xyz/tks/nginx-unprivileged:1.19-alpine"
         imagePullPolicy: "IfNotPresent"
         env:
         - name: ES_URL

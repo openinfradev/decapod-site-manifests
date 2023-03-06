@@ -31,7 +31,7 @@ data:
           }
         },
         "externalIstiod": false,
-        "hub": "harbor-cicd.taco-cat.xyz/tks/istio",
+        "hub": "harbor-cicd.taco-cat.xyz/tks",
         "imagePullPolicy": "",
         "imagePullSecrets": [],
         "istioNamespace": "istio-system",

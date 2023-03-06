@@ -37,6 +37,8 @@ spec:
 
       
       tolerations:
+      - key: node-role.kubernetes.io/control-plane
+        operator: Exists
       - key: node-role.kubernetes.io/master
         operator: Exists
       - key: node-role.kubernetes.io/node
@@ -47,8 +49,8 @@ spec:
       initContainers:
         
         - name: init
-          image: "quay.io/airshipit/kubernetes-entrypoint:v1.0.0"
-          imagePullPolicy: Always  
+          image: "harbor-cicd.taco-cat.xyz/tks/kubernetes-entrypoint:v1.0.0"
+          imagePullPolicy: IfNotPresent  
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
@@ -84,8 +86,8 @@ spec:
             []
       containers:
         - name: process-exporter
-          image: "docker.io/ncabatoff/process-exporter:0.2.11"
-          imagePullPolicy: Always
+          image: "harbor-cicd.taco-cat.xyz/tks/process-exporter:0.2.11"
+          imagePullPolicy: IfNotPresent
           
           
           securityContext:

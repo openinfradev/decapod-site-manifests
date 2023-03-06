@@ -33,7 +33,7 @@ spec:
       securityContext:
         runAsNonRoot: true
       containers:
-        - image: "docker.elastic.co/eck/eck-operator:1.8.0"
+        - image: "harbor-cicd.taco-cat.xyz/tks/eck-operator:1.8.0"
           imagePullPolicy: IfNotPresent
           name: manager
           args:

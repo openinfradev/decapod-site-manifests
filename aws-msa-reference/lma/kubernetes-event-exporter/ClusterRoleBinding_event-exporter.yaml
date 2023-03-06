@@ -4,7 +4,7 @@ kind: ClusterRoleBinding
 metadata:
   name: event-exporter
   labels:
-    helm.sh/chart: kubernetes-event-exporter-2.0.0
+    helm.sh/chart: kubernetes-event-exporter-2.0.1
     app.kubernetes.io/name: event-exporter
     app.kubernetes.io/instance: kubernetes-event-exporter
     app.kubernetes.io/version: "1.16.0"

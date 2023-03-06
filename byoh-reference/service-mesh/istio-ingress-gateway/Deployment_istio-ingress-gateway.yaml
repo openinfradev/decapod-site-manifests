@@ -39,7 +39,7 @@ spec:
           value: "0"
       containers:
         - name: istio-proxy
-          image: istio/proxyv2:1.13.1
+          image: harbor-cicd.taco-cat.xyz/tks/proxyv2:1.13.1
           securityContext:
             # Safe since 1.22: https://github.com/kubernetes/kubernetes/pull/103326
             capabilities:

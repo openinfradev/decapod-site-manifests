@@ -42,7 +42,7 @@ spec:
         servicemesh: enabled
       containers:
       - name: operator
-        image: "quay.io/kiali/kiali-operator:v1.45.1"
+        image: "harbor-cicd.taco-cat.xyz/tks/kiali-operator:v1.45.1"
         imagePullPolicy: Always
         args:
         - "--zap-log-level=info"

@@ -8,7 +8,7 @@ metadata:
     app.kubernetes.io/name: fluent-bit
     app.kubernetes.io/version: 25bc31cd4333f7f77435561ec70bc68e0c73a194
 spec:
-  image: "ghcr.io/openinfradev/fluentbit:25bc31cd4333f7f77435561ec70bc68e0c73a194"
+  image: "harbor-cicd.taco-cat.xyz/tks/fluentbit:25bc31cd4333f7f77435561ec70bc68e0c73a194"
   positionDB:
     hostPath:
       path: /var/log/flb_kube.db
@@ -16,6 +16,8 @@ spec:
   fluentBitConfigName: fluent-bit-config
   containerLogRealPath: /var/lib/docker/containers
   tolerations:
+  - key: node-role.kubernetes.io/control-plane 
+    operator: Exists
   - key: node-role.kubernetes.io/master 
     operator: Exists
   - key: node-role.kubernetes.io/node 
