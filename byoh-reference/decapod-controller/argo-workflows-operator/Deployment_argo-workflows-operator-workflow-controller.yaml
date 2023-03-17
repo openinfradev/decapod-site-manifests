@@ -31,14 +31,14 @@ spec:
       serviceAccountName: argo-workflows-operator-workflow-controller
       containers:
         - name: controller
-          image: "quay.io/argoproj/workflow-controller:v3.2.6"
+          image: "harbor-cicd.taco-cat.xyz/tks/workflow-controller:v3.2.6"
           imagePullPolicy: Always
           command: [ "workflow-controller" ]
           args:
           - "--configmap"
           - "argo-workflows-operator-workflow-controller-configmap"
           - "--executor-image"
-          - "quay.io/argoproj/argoexec:v3.2.6"
+          - "harbor-cicd.taco-cat.xyz/tks/argoexec:v3.2.6"
           - "--loglevel"
           - "info"
           - "--gloglevel"

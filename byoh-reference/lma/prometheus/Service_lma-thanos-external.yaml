@@ -1,0 +1,28 @@
+# Source: kube-prometheus-stack/templates/prometheus/serviceThanosSidecarExternal.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: lma-thanos-external
+  namespace: lma
+  labels:
+    
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/instance: prometheus
+    app.kubernetes.io/version: "44.3.1"
+    app.kubernetes.io/part-of: kube-prometheus-stack
+    chart: kube-prometheus-stack-44.3.1
+    release: "prometheus"
+    heritage: "Helm"
+spec:
+  type: LoadBalancer
+  externalTrafficPolicy: Cluster
+  ports:
+  - name: grpc
+    port: 10901
+    targetPort: grpc
+  - name: http
+    port: 10902
+    targetPort: http
+  selector:
+    app.kubernetes.io/name: prometheus
+    prometheus: lma-prometheus

@@ -1,0 +1,12 @@
+# Source: tigera-operator/templates/crs/custom-resources.yaml
+apiVersion: operator.tigera.io/v1
+kind: Installation
+metadata:
+  name: default
+spec:
+  imagePath: tks
+  imagePrefix: calico-
+  imagePullSecrets: []
+  kubernetesProvider: ""
+  registry: harbor-cicd.taco-cat.xyz/
+

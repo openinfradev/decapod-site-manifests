@@ -30,7 +30,7 @@ spec:
             readOnlyRootFilesystem: true
             runAsNonRoot: true
             runAsUser: 1000
-          image: k8s.gcr.io/metrics-server/metrics-server:v0.6.1
+          image: harbor-cicd.taco-cat.xyz/tks/metrics-server:v0.6.1
           imagePullPolicy: IfNotPresent
           args:
             - --secure-port=4443

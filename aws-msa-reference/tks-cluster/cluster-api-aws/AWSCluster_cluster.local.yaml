@@ -9,4 +9,8 @@ spec:
   region: CHANGEME
   sshKeyName: CHANGEME
   bastion:
-    enabled: false
+    enabled: true
+    instanceType: t3.micro
+    disableIngressRules: false
+    allowedCIDRBlocks:
+      - 127.0.0.1/32

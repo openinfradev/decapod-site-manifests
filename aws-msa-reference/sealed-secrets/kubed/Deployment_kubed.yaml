@@ -5,10 +5,10 @@ metadata:
   name: kubed
   namespace: kube-system
   labels:
-    helm.sh/chart: kubed-v0.12.0-rc.3
+    helm.sh/chart: kubed-v0.12.0
     app.kubernetes.io/name: kubed
     app.kubernetes.io/instance: kubed
-    app.kubernetes.io/version: "v0.12.0-rc.3"
+    app.kubernetes.io/version: "v0.12.0"
     app.kubernetes.io/managed-by: Helm
 spec:
   replicas: 1
@@ -22,14 +22,14 @@ spec:
         app.kubernetes.io/name: kubed
         app.kubernetes.io/instance: kubed
       annotations:
-        checksum/apiregistration.yaml: e6b5da2f4f56ea6ae1e98c730e42756ddb588ac6c2431ff1cc6c04b791aff593
+        checksum/apiregistration.yaml: 04a3dbec6a43ffd2b99a14e50f49e4788539fee2c45bd4ef74ff16ca1d1fcb8d
     spec:
       serviceAccountName: kubed
       containers:
       - name: kubed
         securityContext:
           {}
-        image: appscode/kubed:v0.12.0-rc.3
+        image: harbor-cicd.taco-cat.xyz/tks/kubed:v0.12.0
         imagePullPolicy: IfNotPresent
         args:
         - run
