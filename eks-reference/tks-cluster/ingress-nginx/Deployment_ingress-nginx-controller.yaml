@@ -31,7 +31,7 @@ spec:
       dnsPolicy: ClusterFirst
       containers:
         - name: controller
-          image: "harbor-cicd.taco-cat.xyz/tks/controller:v1.1.1@sha256:0bc88eb15f9e7f84e8e56c14fa5735aaa488b840983f87bd79b1054190e660de"
+          image: "harbor-cicd.taco-cat.xyz/tks/controller:v1.1.1"
           imagePullPolicy: IfNotPresent
           lifecycle: 
             preStop:

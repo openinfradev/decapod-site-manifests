@@ -6,7 +6,7 @@ metadata:
 subjects:
 - kind: ServiceAccount
   name: tigera-operator
-  namespace: tigera-operator
+  namespace: taco-system
 roleRef:
   kind: ClusterRole
   name: tigera-operator

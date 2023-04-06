@@ -11,7 +11,8 @@ metadata:
     heritage: Helm
     monitoring: "true"
 spec:
-  type: ClusterIP
+  type: LoadBalancer
+  loadBalancerIP: 
   ports:
     - name: http
       port: 9000
