@@ -1,0 +1,94 @@
+# Source: s3-chart/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: s3-chart
+  namespace: taco-system
+  labels:
+    app.kubernetes.io/name: s3-chart
+    app.kubernetes.io/instance: s3-chart
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/version: "v1.0.3"
+    k8s-app: s3-chart
+    helm.sh/chart: s3-chart-v1.0.3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: s3-chart
+      app.kubernetes.io/instance: s3-chart
+  template:
+    metadata:
+      annotations:
+      labels:
+        app.kubernetes.io/name: s3-chart
+        app.kubernetes.io/instance: s3-chart
+        app.kubernetes.io/managed-by: Helm
+        k8s-app: s3-chart
+    spec:
+      serviceAccountName: ack-s3-controller
+      containers:
+      - command:
+        - ./bin/controller
+        args:
+        - --aws-region
+        - "$(AWS_REGION)"
+        - --aws-endpoint-url
+        - "$(AWS_ENDPOINT_URL)"
+        - --enable-development-logging
+        - "$(ACK_ENABLE_DEVELOPMENT_LOGGING)"
+        - --log-level
+        - "$(ACK_LOG_LEVEL)"
+        - --resource-tags
+        - "$(ACK_RESOURCE_TAGS)"
+        - --watch-namespace
+        - "$(ACK_WATCH_NAMESPACE)"
+        - --deletion-policy
+        - "$(DELETION_POLICY)"
+        image: harbor-cicd.taco-cat.xyz/tks/s3-controller:v1.0.3
+        imagePullPolicy: IfNotPresent
+        name: controller
+        ports:
+          - name: http
+            containerPort: 8080
+        resources:
+          limits:
+            cpu: 100m
+            memory: 128Mi
+          requests:
+            cpu: 50m
+            memory: 64Mi
+        env:
+        - name: ACK_SYSTEM_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: AWS_REGION
+          value: ap-northeast-2
+        - name: AWS_ENDPOINT_URL
+          value: ""
+        - name: ACK_WATCH_NAMESPACE
+          value: 
+        - name: DELETION_POLICY
+          value: delete
+        - name: ACK_ENABLE_DEVELOPMENT_LOGGING
+          value: "false"
+        - name: ACK_LOG_LEVEL
+          value: "info"
+        - name: ACK_RESOURCE_TAGS
+          value: "services.k8s.aws/controller-version=%CONTROLLER_SERVICE%-%CONTROLLER_VERSION%,services.k8s.aws/namespace=%K8S_NAMESPACE%"
+        securityContext:
+          allowPrivilegeEscalation: false
+          privileged: false
+          runAsNonRoot: true
+          capabilities:
+            drop:
+              - ALL
+      terminationGracePeriodSeconds: 10
+      nodeSelector: 
+        kubernetes.io/os: linux
+        taco-lma: enabled
+      hostIPC: false
+      hostNetwork: false
+      hostPID: false
+

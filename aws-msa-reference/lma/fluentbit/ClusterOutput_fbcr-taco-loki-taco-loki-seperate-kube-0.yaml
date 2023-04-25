@@ -16,6 +16,7 @@ spec:
     port: 80
     labels:
     - job=platform
+    - $cluster
     - $kubernetes['pod_name']
     - $kubernetes['namespace_name']
     - $kubernetes['container_name']

@@ -1,0 +1,15 @@
+# Source: ack-resources/templates/taco-s3.yaml
+apiVersion: s3.services.k8s.aws/v1alpha1
+kind: Bucket
+metadata:
+  name: tks_loki_TO_BE_FIXED
+  namespace: taco-system
+spec:
+  name: tks_loki_TO_BE_FIXED
+  tagging:
+    tagSet:
+    - key: services.tks/generator
+      value: tks.v2023.06.00
+  versioning:
+    status: Enabled
+

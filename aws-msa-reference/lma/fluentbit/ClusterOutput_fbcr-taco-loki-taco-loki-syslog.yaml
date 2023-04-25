@@ -16,5 +16,6 @@ spec:
     port: 80
     labels:
     - job=syslog
+    - $cluster
     - $host
     - $ident

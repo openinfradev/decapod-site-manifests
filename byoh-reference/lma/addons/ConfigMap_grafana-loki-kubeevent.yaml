@@ -109,7 +109,7 @@ data:
           "pluginVersion": "8.3.3",
           "targets": [
             {
-              "expr": "sum(count_over_time(({type=\"$type\", metadata_namespace=~\"$metadata_namespace\", reason=~\"$reason\"})[$__interval]))",
+              "expr": "sum(count_over_time(({cluster=~\"$cluster\", type=\"$level_type\", metadata_namespace=~\"$metadata_namespace\", reason=~\"$reason\"})[$__interval]))",
               "hide": false,
               "refId": "A"
             }
@@ -187,7 +187,7 @@ data:
           "pluginVersion": "8.3.3",
           "targets": [
             {
-              "expr": "sum(count_over_time(({type=\"$type\", metadata_namespace=~\"$metadata_namespace\", reason=~\"$reason\"} |~ \"(?i)$searchable_pattern\")[$__interval]))",
+              "expr": "sum(count_over_time(({cluster=~\"$cluster\", type=\"$level_type\", metadata_namespace=~\"$metadata_namespace\", reason=~\"$reason\"} |~ \"(?i)$searchable_pattern\")[$__interval]))",
               "hide": false,
               "refId": "A"
             }
@@ -220,7 +220,7 @@ data:
           },
           "targets": [
             {
-              "expr": "{type=\"$type\", reason=~\"$reason\", metadata_namespace=~\"$metadata_namespace\"} |~ \"(?i)$searchable_pattern\" ",
+              "expr": "{cluster=~\"$cluster\", type=\"$level_type\", reason=~\"$reason\", metadata_namespace=~\"$metadata_namespace\"} |~ \"(?i)$searchable_pattern\" ",
               "hide": false,
               "refId": "A"
             }
@@ -269,7 +269,7 @@ data:
           "strokeWidth": "1.5",
           "targets": [
             {
-              "expr": "sum(count_over_time(({type=\"$type\", reason=~\"$reason\"})[$__interval])) by (metadata_namespace)",
+              "expr": "sum(count_over_time(({cluster=~\"$cluster\", type=\"$level_type\", reason=~\"$reason\"})[$__interval])) by (metadata_namespace)",
               "hide": false,
               "refId": "A"
             }
@@ -317,7 +317,7 @@ data:
           "strokeWidth": "0.4",
           "targets": [
             {
-              "expr": "sum(count_over_time(({type=\"$type\", reason=~\"$reason\", metadata_namespace=~\"$metadata_namespace\"} |~ \"(?i)$searchable_pattern\")[$__interval])) by (reason)",
+              "expr": "sum(count_over_time(({cluster=~\"$cluster\", type=\"$level_type\", reason=~\"$reason\", metadata_namespace=~\"$metadata_namespace\"} |~ \"(?i)$searchable_pattern\")[$__interval])) by (reason)",
               "refId": "A"
             }
           ],
@@ -392,7 +392,7 @@ data:
           "pluginVersion": "8.3.3",
           "targets": [
             {
-              "expr": "sum(count_over_time(({type=\"$type\", metadata_namespace=~\"$metadata_namespace\", reason=~\"$reason\"} |~ \"(?i)$searchable_pattern\")[$__interval])) * 100 / sum(count_over_time(({type=\"$type\", metadata_namespace=~\"$metadata_namespace\", reason=~\"$reason\"})[$__interval]))",
+              "expr": "sum(count_over_time(({cluster=~\"$cluster\", type=\"$level_type\", metadata_namespace=~\"$metadata_namespace\", reason=~\"$reason\"} |~ \"(?i)$searchable_pattern\")[$__interval])) * 100 / sum(count_over_time(({cluster=~\"$cluster\", type=\"$level_type\", metadata_namespace=~\"$metadata_namespace\", reason=~\"$reason\"})[$__interval]))",
               "hide": false,
               "refId": "A"
             }
@@ -461,7 +461,7 @@ data:
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(count_over_time(({type=\"$type\", reason=~\"$reason\", metadata_namespace=~\"$metadata_namespace\"} |~ \"(?i)$searchable_pattern\")[$__interval])) by (reason)",
+              "expr": "sum(count_over_time(({cluster=~\"$cluster\", type=\"$level_type\", reason=~\"$reason\", metadata_namespace=~\"$metadata_namespace\"} |~ \"(?i)$searchable_pattern\")[$__interval])) by (reason)",
               "refId": "A"
             }
           ],
@@ -554,7 +554,7 @@ data:
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(rate(({type=\"$type\", metadata_namespace=~\"$metadata_namespace\", reason=~\"$reason\"} |~ \"(?i)$searchable_pattern\")[30s])) by (reason)",
+              "expr": "sum(rate(({cluster=~\"$cluster\", type=\"$level_type\", metadata_namespace=~\"$metadata_namespace\", reason=~\"$reason\"} |~ \"(?i)$searchable_pattern\")[30s])) by (reason)",
               "hide": false,
               "refId": "A"
             }
@@ -662,7 +662,7 @@ data:
           "steppedLine": false,
           "targets": [
             {
-              "expr": "sum(count_over_time(({type=\"$type\", reason=~\"$reason\"})[$__interval])) by (metadata_namespace)",
+              "expr": "sum(count_over_time(({cluster=~\"$cluster\", type=\"$level_type\", reason=~\"$reason\"})[$__interval])) by (metadata_namespace)",
               "hide": false,
               "refId": "A"
             }
@@ -711,6 +711,31 @@ data:
       "templating": {
         "list": [
           {
+            "allValue": ".+",
+            "current": {
+              "selected": false,
+              "text": "All",
+              "value": "$__all"
+            },
+            "datasource": {
+              "type": "loki",
+              "uid": "P8E80F9AEF21F6940"
+            },
+            "definition": "label_values(cluster)",
+            "hide": 0,
+            "includeAll": true,
+            "label": "Cluster",
+            "multi": false,
+            "name": "cluster",
+            "options": [],
+            "query": "label_values(cluster)",
+            "refresh": 1,
+            "regex": "",
+            "skipUrlSync": false,
+            "sort": 0,
+            "type": "query"
+          },
+          {
             "current": {
               "selected": false,
               "text": "Normal",
@@ -720,14 +745,14 @@ data:
               "type": "loki",
               "uid": "P8E80F9AEF21F6940"
             },
-            "definition": "label_values({type=~\".+\"}, type)",
+            "definition": "label_values({cluster=~\"$cluster\", type=~\".+\"}, type)",
             "hide": 0,
             "includeAll": false,
             "label": "Level",
             "multi": false,
-            "name": "type",
+            "name": "level_type",
             "options": [],
-            "query": "label_values({type=~\".+\"}, type)",
+            "query": "label_values({cluster=~\"$cluster\", type=~\".+\"}, type)",
             "refresh": 2,
             "regex": "",
             "skipUrlSync": false,
@@ -748,14 +773,14 @@ data:
               "type": "loki",
               "uid": "P8E80F9AEF21F6940"
             },
-            "definition": "label_values({type=\"$type\"}, reason)",
+            "definition": "label_values({cluster=~\"$cluster\", type=\"$level_type\"}, reason)",
             "hide": 0,
             "includeAll": true,
             "label": "Reason",
             "multi": false,
             "name": "reason",
             "options": [],
-            "query": "label_values({type=\"$type\"}, reason)",
+            "query": "label_values({cluster=~\"$cluster\", type=\"$level_type\"}, reason)",
             "refresh": 2,
             "regex": "",
             "skipUrlSync": false,
@@ -776,14 +801,14 @@ data:
               "type": "loki",
               "uid": "P8E80F9AEF21F6940"
             },
-            "definition": "label_values({type=\"$type\"}, metadata_namespace)",
+            "definition": "label_values({cluster=~\"$cluster\", type=\"$level_type\"}, metadata_namespace)",
             "hide": 0,
             "includeAll": true,
             "label": "Namespace",
             "multi": false,
             "name": "metadata_namespace",
             "options": [],
-            "query": "label_values({type=\"$type\"}, metadata_namespace)",
+            "query": "label_values({cluster=~\"$cluster\", type=\"$level_type\"}, metadata_namespace)",
             "refresh": 2,
             "regex": "",
             "skipUrlSync": false,
@@ -833,8 +858,8 @@ data:
         ]
       },
       "timezone": "",
-      "title": "[TACO] Kubernetes Event Dashboard",
-      "uid": "TACO_KUBEEVENT_DASHBOARD",
+      "title": "[TKS] Kubernetes Event Dashboard",
+      "uid": "tks_kubernetes_event",
       "version": 1,
       "weekStart": ""
     }
