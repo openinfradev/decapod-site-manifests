@@ -14,5 +14,5 @@ spec:
     - "ReadWriteOnce"
   resources:
     requests:
-      storage: "500Gi"
+      storage: "3000Gi"
   storageClassName: "taco-storage"

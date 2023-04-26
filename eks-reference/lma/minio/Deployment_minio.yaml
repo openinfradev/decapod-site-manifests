@@ -27,7 +27,7 @@ spec:
         app: minio
         release: minio
       annotations:
-        checksum/secrets: 583b3b09b6d7d9fd2524cbd05ec4d03cd743231f13b7b17a6cd093a016b2ef67
+        checksum/secrets: 938dc45baf5b00a7fe26873e128c123f86251b25e023b62717e1b68016f023ed
         checksum/config: 3498240a6c3a60a298d861dd7feec1e482a015c5a439dedc8e22f944f6b81e1d
     spec:
       securityContext:
