@@ -12,7 +12,6 @@ spec:
   addons:
     - conflictResolution: overwrite
       name: aws-ebs-csi-driver
-      serviceAccountRoleARN: arn:aws:iam::CHANGEME:role/AmazonEKS_EBS_CSI_DriverRole_cluster.local
       version: v1.15.0-eksbuild.1
     - conflictResolution: overwrite
       name: vpc-cni
