@@ -3,9 +3,10 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: thanos-query
+  namespace: "lma"
   labels:
     app.kubernetes.io/name: thanos
-    helm.sh/chart: thanos-3.4.0
+    helm.sh/chart: thanos-12.3.2-skt
     app.kubernetes.io/instance: thanos
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: query
@@ -22,13 +23,14 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: thanos
-        helm.sh/chart: thanos-3.4.0
+        helm.sh/chart: thanos-12.3.2-skt
         app.kubernetes.io/instance: thanos
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/component: query
     spec:
       
-      serviceAccount: thanos-query
+      serviceAccountName: thanos-query
+      automountServiceAccountToken: true
       affinity:
         podAffinity:
           
@@ -40,8 +42,6 @@ spec:
                     app.kubernetes.io/name: thanos
                     app.kubernetes.io/instance: thanos
                     app.kubernetes.io/component: query
-                namespaces:
-                  - "lma"
                 topologyKey: kubernetes.io/hostname
               weight: 1
         nodeAffinity:
@@ -49,19 +49,24 @@ spec:
       nodeSelector:
         taco-lma: enabled
       securityContext:
-        runAsUser: 1001
         fsGroup: 1001
       containers:
         - name: query
           image: harbor-cicd.taco-cat.xyz/tks/thanos:v0.30.2
           imagePullPolicy: "IfNotPresent"
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1001
           args:
             - query
             - --log.level=info
+            - --log.format=logfmt
             - --grpc-address=0.0.0.0:10901
             - --http-address=0.0.0.0:10902
             - --query.replica-label=replica
-            - --store=prometheus-operated.lma.svc.cluster.local:10901
+            - --endpoint=prometheus-operated.lma.svc.cluster.local:10901
           ports:
             - name: http
               containerPort: 10902
@@ -70,17 +75,25 @@ spec:
               containerPort: 10901
               protocol: TCP
           livenessProbe:
+            failureThreshold: 6
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 30
             httpGet:
               path: /-/healthy
               port: http
-            initialDelaySeconds: 30
-            timeoutSeconds: 30
+              scheme: HTTP
           readinessProbe:
+            failureThreshold: 6
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 30
             httpGet:
               path: /-/ready
               port: http
-            initialDelaySeconds: 30
-            timeoutSeconds: 30
+              scheme: HTTP
           resources:
             limits: {}
             requests: {}

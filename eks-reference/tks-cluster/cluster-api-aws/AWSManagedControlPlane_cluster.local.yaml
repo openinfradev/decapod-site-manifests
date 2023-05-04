@@ -1,0 +1,22 @@
+# Source: cluster-api-aws/templates/aws-managed-control-plane.yaml
+apiVersion: controlplane.cluster.x-k8s.io/v1beta2
+kind: AWSManagedControlPlane
+metadata:
+  name: cluster.local
+  namespace: eks-reference
+spec:
+  eksClusterName: cluster.local
+  region: CHANGEME
+  sshKeyName: CHANGEME
+  version: v1.22.5
+  addons:
+    - conflictResolution: overwrite
+      name: aws-ebs-csi-driver
+      serviceAccountRoleARN: arn:aws:iam::CHANGEME:role/AmazonEKS_EBS_CSI_DriverRole_cluster.local
+      version: v1.15.0-eksbuild.1
+    - conflictResolution: overwrite
+      name: vpc-cni
+      version: v1.10.1-eksbuild.1
+  identityRef:
+    kind: AWSClusterRoleIdentity
+    name: CHANGEME-account-role

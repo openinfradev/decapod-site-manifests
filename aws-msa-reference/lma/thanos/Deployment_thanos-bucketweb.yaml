@@ -3,9 +3,10 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: thanos-bucketweb
+  namespace: "lma"
   labels:
     app.kubernetes.io/name: thanos
-    helm.sh/chart: thanos-3.4.0
+    helm.sh/chart: thanos-12.3.2-skt
     app.kubernetes.io/instance: thanos
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: bucketweb
@@ -22,15 +23,16 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: thanos
-        helm.sh/chart: thanos-3.4.0
+        helm.sh/chart: thanos-12.3.2-skt
         app.kubernetes.io/instance: thanos
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/component: bucketweb
       annotations:
-        checksum/ojbstore-configuration: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
+        checksum/objstore-configuration: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
     spec:
       
-      serviceAccount: thanos-bucketweb
+      serviceAccountName: thanos-bucketweb
+      automountServiceAccountToken: true
       affinity:
         podAffinity:
           
@@ -42,8 +44,6 @@ spec:
                     app.kubernetes.io/name: thanos
                     app.kubernetes.io/instance: thanos
                     app.kubernetes.io/component: bucketweb
-                namespaces:
-                  - "lma"
                 topologyKey: kubernetes.io/hostname
               weight: 1
         nodeAffinity:
@@ -51,18 +51,23 @@ spec:
       nodeSelector:
         taco-lma: enabled
       securityContext:
-        runAsUser: 1001
         fsGroup: 1001
       containers:
         - name: bucketweb
           image: harbor-cicd.taco-cat.xyz/tks/thanos:v0.30.2
           imagePullPolicy: "IfNotPresent"
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1001
           args:
             - tools
             - bucket
             - web
             - --http-address=0.0.0.0:8080
             - --log.level=info
+            - --log.format=logfmt
             - --objstore.config-file=/conf/objstore.yml
             - --refresh=30m
             - --timeout=5m
@@ -71,17 +76,25 @@ spec:
               containerPort: 8080
               protocol: TCP
           livenessProbe:
-            httpGet:
-              path: /
-              port: http
+            failureThreshold: 6
             initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
             timeoutSeconds: 30
+            httpGet:
+              path: /-/healthy
+              port: http
+              scheme: HTTP
           readinessProbe:
-            httpGet:
-              path: /
-              port: http
+            failureThreshold: 6
             initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
             timeoutSeconds: 30
+            httpGet:
+              path: /-/ready
+              port: http
+              scheme: HTTP
           resources:
             limits: {}
             requests: {}

@@ -1,0 +1,34 @@
+---
+# Source: cluster-api-aws/templates/aws-cluster.yaml
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
+kind: AWSCluster
+metadata:
+  name: cluster.local
+  namespace: aws-reference
+spec:
+  region: CHANGEME
+  sshKeyName: CHANGEME
+  identityRef:
+    kind: AWSClusterRoleIdentity
+    name: CHANGEME-account-role
+  network:
+    cni:
+      cniIngressRules:
+      - description: bgp (calico)
+        fromPort: 179
+        protocol: tcp
+        toPort: 179
+      - description: IP-in-IP (calico)
+        fromPort: -1
+        protocol: "4"
+        toPort: 65535
+      - description: Typha (calico)
+        fromPort: 5473
+        protocol: tcp
+        toPort: 5473
+  bastion:
+    enabled: true
+    instanceType: t3.micro
+    disableIngressRules: false
+    allowedCIDRBlocks:
+      - 127.0.0.1/32

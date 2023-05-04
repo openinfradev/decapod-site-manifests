@@ -33,10 +33,6 @@ spec:
       protocol: TCP
       targetPort: https
       appProtocol: https
-    - name: 10254-tcp
-      port: 10254
-      protocol: TCP
-      targetPort: 10254-tcp
   selector:
     app.kubernetes.io/name: ingress-nginx
     app.kubernetes.io/instance: ingress-nginx

@@ -3,9 +3,10 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: thanos-ruler
+  namespace: "lma"
   labels:
     app.kubernetes.io/name: thanos
-    helm.sh/chart: thanos-3.4.0
+    helm.sh/chart: thanos-12.3.2-skt
     app.kubernetes.io/instance: thanos
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: ruler
@@ -24,16 +25,17 @@ spec:
     metadata:
       labels:
         app.kubernetes.io/name: thanos
-        helm.sh/chart: thanos-3.4.0
+        helm.sh/chart: thanos-12.3.2-skt
         app.kubernetes.io/instance: thanos
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/component: ruler
       annotations:
-        checksum/ojbstore-configuration: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
-        checksum/ruler-configuration: 50b03b1d76bcb40b1d9e71f788fa40b0924f101737b459feacabdc6a3d51f8a3
+        checksum/objstore-configuration: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
+        checksum/ruler-configuration: f58df7f6be7587b7e9e7c156a6ee90ca3219d83138ad19f559fa5b7c5f9364a9
     spec:
       
-      serviceAccount: thanos-ruler
+      serviceAccountName: thanos-ruler
+      automountServiceAccountToken: true
       affinity:
         podAffinity:
           
@@ -45,8 +47,6 @@ spec:
                     app.kubernetes.io/name: thanos
                     app.kubernetes.io/instance: thanos
                     app.kubernetes.io/component: ruler
-                namespaces:
-                  - "lma"
                 topologyKey: kubernetes.io/hostname
               weight: 1
         nodeAffinity:
@@ -60,10 +60,14 @@ spec:
           image: harbor-cicd.taco-cat.xyz/tks/thanos:v0.30.2
           imagePullPolicy: "IfNotPresent"
           securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
             runAsUser: 1001
           args:
             - rule
             - --log.level=info
+            - --log.format=logfmt
             - --grpc-address=0.0.0.0:10901
             - --http-address=0.0.0.0:10902
             - --data-dir=/data
@@ -74,7 +78,7 @@ spec:
             - --label=ruler_cluster=""
             - --alert.label-drop=replica
             - --objstore.config-file=/conf/objstore/objstore.yml
-            - --rule-file=/conf/rules/ruler.yml
+            - --rule-file=/conf/rules/*.yml
           env:
             - name: POD_NAME
               valueFrom:
@@ -88,17 +92,25 @@ spec:
               containerPort: 10901
               protocol: TCP
           livenessProbe:
+            failureThreshold: 6
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 30
             httpGet:
               path: /-/healthy
               port: http
-            initialDelaySeconds: 30
-            timeoutSeconds: 30
+              scheme: HTTP
           readinessProbe:
+            failureThreshold: 6
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 30
             httpGet:
               path: /-/ready
               port: http
-            initialDelaySeconds: 30
-            timeoutSeconds: 30
+              scheme: HTTP
           resources:
             limits: {}
             requests: {}

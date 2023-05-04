@@ -1,0 +1,23 @@
+# Source: cluster-api-aws/templates/machine-deployment.yaml
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+kind: AWSMachineTemplate
+metadata:
+  name: cluster.local-md-normal
+  namespace: aws-reference
+spec:
+  template:
+    spec:
+      iamInstanceProfile: nodes.cluster-api-provider-aws.sigs.k8s.io
+      instanceType: CHANGEME
+      sshKeyName: CHANGEME
+      rootVolume:
+        size: 50
+        type: gp2
+      subnet:
+        filters:
+        - name: "tag:sigs.k8s.io/cluster-api-provider-aws/role"
+          values:
+          - "private"
+        - name: "tag:Name"
+          values:
+          - "*cluster.local*"

@@ -1,0 +1,15 @@
+# Source: cluster-api-aws/templates/kubeadm-control-plane.yaml
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
+kind: AWSMachineTemplate
+metadata:
+  name: cluster.local-control-plane
+  namespace: aws-msa-reference
+spec:
+  template:
+    spec:
+      iamInstanceProfile: control-plane.cluster-api-provider-aws.sigs.k8s.io
+      instanceType: t3.medium
+      sshKeyName: CHANGEME
+      rootVolume:
+        size: 20
+        type: gp2

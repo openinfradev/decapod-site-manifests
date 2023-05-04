@@ -45,7 +45,6 @@ spec:
             - --controller-class=k8s.io/ingress-nginx
             - --ingress-class=nginx
             - --configmap=$(POD_NAMESPACE)/ingress-nginx-controller
-            - --tcp-services-configmap=$(POD_NAMESPACE)/ingress-nginx-tcp
             - --validating-webhook=:8443
             - --validating-webhook-certificate=/usr/local/certificates/cert
             - --validating-webhook-key=/usr/local/certificates/key
@@ -100,10 +99,6 @@ spec:
             - name: webhook
               containerPort: 8443
               protocol: TCP
-            - name: 10254-tcp
-              containerPort: 10254
-              protocol: TCP
-              hostPort: 10254
           volumeMounts:
             - name: webhook-cert
               mountPath: /usr/local/certificates/
