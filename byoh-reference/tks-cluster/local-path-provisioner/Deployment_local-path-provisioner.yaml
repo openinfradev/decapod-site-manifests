@@ -24,7 +24,7 @@ spec:
       serviceAccountName: local-path-provisioner
       containers:
         - name: local-path-provisioner
-          image: "harbor-cicd.taco-cat.xyz/tks/local-path-provisioner:v0.0.22"
+          image: "harbor.taco-cat.xyz/tks/local-path-provisioner:v0.0.22"
           imagePullPolicy: IfNotPresent
           command:
             - local-path-provisioner

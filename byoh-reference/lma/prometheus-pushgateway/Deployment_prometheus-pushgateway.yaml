@@ -30,7 +30,7 @@ spec:
       serviceAccountName: prometheus-pushgateway
       containers:
         - name: pushgateway
-          image: "harbor-cicd.taco-cat.xyz/tks/pushgateway:v1.3.0"
+          image: "harbor.taco-cat.xyz/tks/pushgateway:v1.3.0"
           imagePullPolicy: IfNotPresent
           ports:
             - name: metrics

@@ -1,0 +1,19 @@
+# Source: k8ssandra-operator/templates/webhook-serving-cert.yaml
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: k8ssandra-operator-serving-cert
+  labels:     
+    app.kubernetes.io/name: k8ssandra-operator
+    helm.sh/chart: k8ssandra-operator-1.6.0
+    app.kubernetes.io/instance: k8ssandra-operator
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/part-of: k8ssandra-k8ssandra-operator-tks-msa
+spec:
+  dnsNames:
+    -  k8ssandra-operator-webhook-service.tks-msa.svc
+    -  k8ssandra-operator-webhook-service.tks-msa.svc.cluster.local
+  issuerRef:
+    kind: Issuer
+    name: k8ssandra-operator-selfsigned-issuer
+  secretName: k8ssandra-operator-webhook-server-cert

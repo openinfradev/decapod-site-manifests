@@ -1,0 +1,23 @@
+# Source: k8ssandra-operator/templates/crd/cluster_role_binding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: k8ssandra-operator-crd-upgrader-k8ssandra
+  labels:     
+    app.kubernetes.io/name: k8ssandra-operator
+    helm.sh/chart: k8ssandra-operator-1.6.0
+    app.kubernetes.io/instance: k8ssandra-operator
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/part-of: k8ssandra-k8ssandra-operator-tks-msa
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+    "helm.sh/hook-weight": "2"
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: k8ssandra-operator-crd-upgrader-k8ssandra
+subjects:
+  - kind: ServiceAccount
+    name: k8ssandra-operator-crd-upgrader-k8ssandra
+    namespace: tks-msa

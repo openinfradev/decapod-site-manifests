@@ -9,9 +9,9 @@ metadata:
     
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/instance: prometheus
-    app.kubernetes.io/version: "44.3.1"
+    app.kubernetes.io/version: "48.3.1"
     app.kubernetes.io/part-of: kube-prometheus-stack
-    chart: kube-prometheus-stack-44.3.1
+    chart: kube-prometheus-stack-48.3.1
     release: "prometheus"
     heritage: "Helm"
 spec:
@@ -26,5 +26,7 @@ spec:
       - "lma"
   endpoints:
   - port: http-web
+    path: "/metrics"
+  - port: reloader-web
     path: "/metrics"
 

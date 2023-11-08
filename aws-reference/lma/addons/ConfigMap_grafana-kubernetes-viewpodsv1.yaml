@@ -3098,7 +3098,7 @@ data:
       },
       "timezone": "browser",
       "title": "[TKS] Kubernetes / View / Pods (v1)",
-      "uid": "tks-ttMuv8FVz",
-      "version": 2,
+      "uid": "tks_podv1_dashboard",
+      "version": 1,
       "weekStart": ""
     }

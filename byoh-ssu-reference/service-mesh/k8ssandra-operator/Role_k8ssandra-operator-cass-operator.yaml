@@ -1,0 +1,135 @@
+# Source: k8ssandra-operator/charts/cass-operator/templates/role.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: k8ssandra-operator-cass-operator
+  labels:     
+    app.kubernetes.io/name: cass-operator
+    helm.sh/chart: cass-operator-0.40.0
+    app.kubernetes.io/instance: k8ssandra-operator
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/part-of: k8ssandra-k8ssandra-operator-tks-msa
+rules:
+  - apiGroups:
+      - apps
+    resources:
+      - daemonsets
+      - deployments
+      - replicasets
+      - statefulsets
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - apps
+    resources:
+      - deployments/finalizers
+    verbs:
+      - update
+  - apiGroups:
+      - cassandra.datastax.com
+    resources:
+      - cassandradatacenters
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - cassandra.datastax.com
+    resources:
+      - cassandradatacenters/finalizers
+    verbs:
+      - delete
+      - update
+  - apiGroups:
+      - cassandra.datastax.com
+    resources:
+      - cassandradatacenters/status
+    verbs:
+      - get
+      - patch
+      - update
+  - apiGroups:
+      - control.k8ssandra.io
+    resources:
+      - cassandratasks
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - control.k8ssandra.io
+    resources:
+      - cassandratasks/finalizers
+    verbs:
+      - update
+  - apiGroups:
+      - control.k8ssandra.io
+    resources:
+      - cassandratasks/status
+    verbs:
+      - get
+      - patch
+      - update
+  - apiGroups:
+      - ""
+    resources:
+      - configmaps
+      - endpoints
+      - events
+      - persistentvolumeclaims
+      - pods
+      - secrets
+      - services
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - events
+      - pods
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - namespaces
+    verbs:
+      - get
+  - apiGroups:
+      - policy
+    resources:
+      - poddisruptionbudgets
+    verbs:
+      - create
+      - delete
+      - get
+      - list
+      - patch
+      - update
+      - watch

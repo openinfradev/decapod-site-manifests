@@ -8,5 +8,5 @@ spec:
   imagePrefix: calico-
   imagePullSecrets: []
   kubernetesProvider: ""
-  registry: harbor-cicd.taco-cat.xyz/
+  registry: harbor.taco-cat.xyz/
 

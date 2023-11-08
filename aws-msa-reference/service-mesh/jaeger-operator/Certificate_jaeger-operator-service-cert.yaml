@@ -1,0 +1,17 @@
+# Source: jaeger-operator/templates/certificate.yaml
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: jaeger-operator-service-cert
+  namespace: tks-msa
+spec:
+  dnsNames:
+  - "jaeger-operator-webhook-service.tks-msa.svc"
+  - "jaeger-operator-webhook-service.tks-msa.svc.cluster.local"
+  issuerRef:
+    kind: Issuer
+    name: selfsigned-issuer
+  secretName: jaeger-operator-service-cert
+  subject:
+    organizationalUnits:
+      - "jaeger-operator"

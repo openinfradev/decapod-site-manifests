@@ -1,0 +1,39 @@
+# Source: tks-apis/templates/tks-console/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tks-console
+  namespace: tks
+  labels:
+    helm.sh/chart: tks-apis-0.1.2
+    app.kubernetes.io/service: tks
+    app.kubernetes.io/name: tks-console
+    app.kubernetes.io/version: "0.1.2"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/service: tks
+      app.kubernetes.io/name: tks-console
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/service: tks
+        app.kubernetes.io/name: tks-console
+    spec:
+      serviceAccountName: tks-console
+      securityContext:
+        null
+      containers:
+        - name: tks-apis
+          securityContext:
+            null
+          image: "harbor.taco-cat.xyz/tks/tks-console:v3.0.1"
+          imagePullPolicy: Always
+          ports:
+            - name: tks-console
+              containerPort: 80
+              protocol: TCP
+          resources:
+            null

@@ -1,0 +1,11 @@
+# Source: cluster-api-byoh/templates/machinedeployment.yaml
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+kind: K8sInstallerConfigTemplate
+metadata:
+  name: cluster.local-md-taco
+  namespace: byoh-stage-reference
+spec:
+  template:
+    spec:
+      bundleRepo: harbor.taco-cat.xyz/cluster_api_provider_bringyourownhost
+      bundleType: k8s

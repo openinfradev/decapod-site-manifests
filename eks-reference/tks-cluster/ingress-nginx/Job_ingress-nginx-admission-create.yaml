@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
         - name: create
-          image: "harbor-cicd.taco-cat.xyz/tks/kube-webhook-certgen:v1.1.1"
+          image: "harbor.taco-cat.xyz/tks/kube-webhook-certgen:v1.1.1"
           imagePullPolicy: IfNotPresent
           args:
             - create

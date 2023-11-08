@@ -1,0 +1,27 @@
+# Source: keycloak/templates/ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: keycloak
+  namespace: "keycloak"
+  labels:
+    app.kubernetes.io/name: keycloak
+    helm.sh/chart: keycloak-15.1.6
+    app.kubernetes.io/instance: keycloak
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: keycloak
+  annotations:
+spec:
+  ingressClassName: "nginx"
+  rules:
+    - host: "TO_BE_FIXED"
+      http:
+        paths:
+          - path: /auth/
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: keycloak
+                port:
+                  name: http
+

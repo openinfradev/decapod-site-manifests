@@ -13,7 +13,7 @@ data:
     datasources:
     - name: Prometheus
       type: prometheus
-      url: http://lma-prometheus.lma:9090
+      url: http://lma-prometheus:9090
       access: proxy
       isDefault: true
     - name: Loki

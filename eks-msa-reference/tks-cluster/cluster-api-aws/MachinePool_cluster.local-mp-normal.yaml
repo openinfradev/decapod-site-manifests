@@ -1,0 +1,24 @@
+# Source: cluster-api-aws/templates/machine-pool.yaml
+apiVersion: cluster.x-k8s.io/v1beta1
+kind: MachinePool
+metadata:
+  name: cluster.local-mp-normal
+  namespace: eks-msa-reference
+  annotations:
+    cluster.x-k8s.io/replicas-managed-by: "external-autoscaler"
+spec:
+  clusterName: cluster.local
+  replicas: CHANGEME
+  template:
+    metadata:
+    spec:
+      bootstrap:
+        dataSecretName: ""
+      clusterName: cluster.local
+      infrastructureRef:
+        apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
+        kind: AWSManagedMachinePool
+        name: cluster.local-mp-normal
+        namespace: eks-msa-reference
+      version: v1.25.9
+

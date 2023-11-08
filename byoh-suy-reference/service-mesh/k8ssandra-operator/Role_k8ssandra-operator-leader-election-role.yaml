@@ -1,0 +1,43 @@
+# Source: k8ssandra-operator/templates/leader-role.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: k8ssandra-operator-leader-election-role
+  labels:     
+    app.kubernetes.io/name: k8ssandra-operator
+    helm.sh/chart: k8ssandra-operator-1.6.0
+    app.kubernetes.io/instance: k8ssandra-operator
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/part-of: k8ssandra-k8ssandra-operator-tks-msa
+rules:
+- apiGroups:
+    - ""
+  resources:
+    - configmaps
+  verbs:
+    - get
+    - list
+    - watch
+    - create
+    - update
+    - patch
+    - delete
+- apiGroups:
+    - coordination.k8s.io
+  resources:
+    - leases
+  verbs:
+    - get
+    - list
+    - watch
+    - create
+    - update
+    - patch
+    - delete
+- apiGroups:
+    - ""
+  resources:
+    - events
+  verbs:
+    - create
+    - patch

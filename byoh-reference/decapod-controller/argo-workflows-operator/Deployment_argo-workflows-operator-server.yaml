@@ -31,7 +31,7 @@ spec:
       serviceAccountName: argo-workflows-operator-server
       containers:
         - name: argo-server
-          image: "harbor-cicd.taco-cat.xyz/tks/argocli:v3.2.6"
+          image: "harbor.taco-cat.xyz/tks/argocli:v3.2.6"
           imagePullPolicy: Always
           securityContext:
             allowPrivilegeEscalation: false

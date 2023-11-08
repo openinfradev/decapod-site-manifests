@@ -1,14 +1,14 @@
 # Source: aws-ebs-csi-driver/templates/node.yaml
-# Node Service
 kind: DaemonSet
 apiVersion: apps/v1
 metadata:
   name: ebs-csi-node
+  namespace: kube-system
   labels:
     app.kubernetes.io/name: aws-ebs-csi-driver
     app.kubernetes.io/instance: aws-ebs-csi-driver
-    helm.sh/chart: aws-ebs-csi-driver-2.6.4-skt
-    app.kubernetes.io/version: "1.5.1"
+    helm.sh/chart: aws-ebs-csi-driver-2.24.0
+    app.kubernetes.io/version: "1.24.0"
     app.kubernetes.io/component: csi-driver
     app.kubernetes.io/managed-by: Helm
 spec:
@@ -27,8 +27,8 @@ spec:
         app: ebs-csi-node
         app.kubernetes.io/name: aws-ebs-csi-driver
         app.kubernetes.io/instance: aws-ebs-csi-driver
-        helm.sh/chart: aws-ebs-csi-driver-2.6.4-skt
-        app.kubernetes.io/version: "1.5.1"
+        helm.sh/chart: aws-ebs-csi-driver-2.24.0
+        app.kubernetes.io/version: "1.24.0"
         app.kubernetes.io/component: csi-driver
         app.kubernetes.io/managed-by: Helm
     spec:
@@ -46,21 +46,21 @@ spec:
       serviceAccountName: ebs-csi-node-sa
       priorityClassName: system-node-critical
       tolerations:
-        - key: CriticalAddonsOnly
-          operator: Exists
         - operator: Exists
-          effect: NoExecute
-          tolerationSeconds: 300
+      hostNetwork: false
+      securityContext:
+        fsGroup: 0
+        runAsGroup: 0
+        runAsNonRoot: false
+        runAsUser: 0
       containers:
         - name: ebs-plugin
-          securityContext:
-            privileged: true
-          image: harbor-cicd.taco-cat.xyz/tks/aws-ebs-csi-driver:v1.5.1
+          image: harbor.taco-cat.xyz/tks/aws-ebs-csi-driver:v1.24.0
           imagePullPolicy: IfNotPresent
           args:
             - node
             - --endpoint=$(CSI_ENDPOINT)
-            - --logtostderr
+            - --logging-format=text
             - --v=2
           env:
             - name: CSI_ENDPOINT
@@ -89,8 +89,21 @@ spec:
             timeoutSeconds: 3
             periodSeconds: 10
             failureThreshold: 5
+          resources:
+            limits:
+              memory: 256Mi
+            requests:
+              cpu: 10m
+              memory: 40Mi
+          securityContext:
+            privileged: true
+            readOnlyRootFilesystem: true
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/bin/aws-ebs-csi-driver", "pre-stop-hook"]
         - name: node-driver-registrar
-          image: harbor-cicd.taco-cat.xyz/tks/csi-node-driver-registrar:v2.1.0
+          image: harbor.taco-cat.xyz/tks/csi-node-driver-registrar:v2.9.0-eks-1-28-6
           imagePullPolicy: IfNotPresent
           args:
             - --csi-address=$(ADDRESS)
@@ -101,19 +114,48 @@ spec:
               value: /csi/csi.sock
             - name: DRIVER_REG_SOCK_PATH
               value: /var/lib/kubelet/plugins/ebs.csi.aws.com/csi.sock
+          livenessProbe:
+            exec:
+              command:
+                - /csi-node-driver-registrar
+                - --kubelet-registration-path=$(DRIVER_REG_SOCK_PATH)
+                - --mode=kubelet-registration-probe
+            initialDelaySeconds: 30
+            timeoutSeconds: 15
+            periodSeconds: 90
           volumeMounts:
             - name: plugin-dir
               mountPath: /csi
             - name: registration-dir
               mountPath: /registration
+            - name: probe-dir
+              mountPath: /var/lib/kubelet/plugins/ebs.csi.aws.com/
+          resources:
+            limits:
+              memory: 256Mi
+            requests:
+              cpu: 10m
+              memory: 40Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
         - name: liveness-probe
-          image: harbor-cicd.taco-cat.xyz/tks/livenessprobe:v2.4.0
+          image: harbor.taco-cat.xyz/tks/livenessprobe:v2.10.0-eks-1-28-6
           imagePullPolicy: IfNotPresent
           args:
             - --csi-address=/csi/csi.sock
           volumeMounts:
             - name: plugin-dir
               mountPath: /csi
+          resources:
+            limits:
+              memory: 256Mi
+            requests:
+              cpu: 10m
+              memory: 40Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
       volumes:
         - name: kubelet-dir
           hostPath:
@@ -131,3 +173,5 @@ spec:
           hostPath:
             path: /dev
             type: Directory
+        - name: probe-dir
+          emptyDir: {}

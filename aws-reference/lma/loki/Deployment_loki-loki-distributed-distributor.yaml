@@ -26,7 +26,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: c0b4a52ab717cc1c3a0d2d64c450b35ebfd7328d8cf9b012a97dccc07cfbe9a2
+        checksum/config: bce48a56e46ea2d5054a72846813bc9477a55c623e5adf0f447eae9fadb2a43b
       labels:
         app.kubernetes.io/name: loki-distributed
         app.kubernetes.io/instance: loki
@@ -43,7 +43,7 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
         - name: distributor
-          image: harbor-cicd.taco-cat.xyz/tks/loki:2.6.1
+          image: harbor.taco-cat.xyz/tks/loki:2.6.1
           imagePullPolicy: IfNotPresent
           args:
             - -config.file=/etc/loki/config/config.yaml
@@ -101,6 +101,8 @@ spec:
                     app.kubernetes.io/component: distributor
                 topologyKey: failure-domain.beta.kubernetes.io/zone
         
+      nodeSelector:
+        taco-lma: enabled
       volumes:
         - name: config
           configMap:

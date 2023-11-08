@@ -10,9 +10,9 @@ metadata:
     
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/instance: prometheus
-    app.kubernetes.io/version: "44.3.1"
+    app.kubernetes.io/version: "48.3.1"
     app.kubernetes.io/part-of: kube-prometheus-stack
-    chart: kube-prometheus-stack-44.3.1
+    chart: kube-prometheus-stack-48.3.1
     release: "prometheus"
     heritage: "Helm"
 spec:
@@ -20,8 +20,11 @@ spec:
   - name: http-web
     port: 9090
     targetPort: 9090
+  - name: reloader-web
+    port: 8080
+    targetPort: reloader-web
   publishNotReadyAddresses: false
   selector:
     app.kubernetes.io/name: prometheus
-    prometheus: lma-prometheus
+    operator.prometheus.io/name: lma-prometheus
   type: "ClusterIP"

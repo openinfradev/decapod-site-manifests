@@ -6,7 +6,7 @@ metadata:
   namespace: "lma"
   labels:
     app.kubernetes.io/name: kube-state-metrics
-    helm.sh/chart: kube-state-metrics-3.2.8
+    helm.sh/chart: kube-state-metrics-3.3.4
     app.kubernetes.io/instance: kube-state-metrics
     app.kubernetes.io/managed-by: Helm
 spec:
@@ -23,7 +23,7 @@ spec:
       annotations:
       labels:
         app.kubernetes.io/name: kube-state-metrics
-        helm.sh/chart: kube-state-metrics-3.2.8
+        helm.sh/chart: kube-state-metrics-3.3.4
         app.kubernetes.io/instance: kube-state-metrics
         app.kubernetes.io/managed-by: Helm
     spec:
@@ -50,7 +50,7 @@ spec:
       serviceAccountName: kube-state-metrics
       containers:
         - name: kube-state-metrics
-          image: harbor-cicd.taco-cat.xyz/tks/kube-state-metrics:2.7.0-debian-11-r21
+          image: harbor.taco-cat.xyz/tks/kube-state-metrics:2.8.2-debian-11-r0
           imagePullPolicy: IfNotPresent
           securityContext:
             runAsNonRoot: true

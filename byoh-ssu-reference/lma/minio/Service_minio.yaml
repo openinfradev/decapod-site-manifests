@@ -1,0 +1,25 @@
+# Source: minio/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: minio
+  namespace: "lma"
+  labels:
+    app: minio
+    chart: minio-5.0.4
+    release: minio
+    heritage: Helm
+    monitoring: "true"
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: '*'
+    service.beta.kubernetes.io/aws-load-balancer-type: nlb
+spec:
+  type: NodePort
+  ports:
+    - name: http
+      port: 9000
+      protocol: TCP
+      nodePort: 30003
+  selector:
+    app: minio
+    release: minio

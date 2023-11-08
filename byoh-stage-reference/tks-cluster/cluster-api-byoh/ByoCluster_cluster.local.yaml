@@ -1,0 +1,12 @@
+---
+# Source: cluster-api-byoh/templates/byo-cluster.yaml
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+kind: ByoCluster
+metadata:
+  name: cluster.local
+  namespace: byoh-stage-reference
+spec:
+  bundleLookupBaseRegistry: harbor.taco-cat.xyz/cluster_api_provider_bringyourownhost
+  controlPlaneEndpoint:
+    host: CHANGEME
+    port: CHANGEME

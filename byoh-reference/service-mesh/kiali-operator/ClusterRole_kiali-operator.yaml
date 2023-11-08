@@ -4,12 +4,12 @@ kind: ClusterRole
 metadata:
   name: kiali-operator
   labels:
-    helm.sh/chart: kiali-operator-1.45.1
+    helm.sh/chart: kiali-operator-1.63.0
     app: kiali-operator
     app.kubernetes.io/name: kiali-operator
     app.kubernetes.io/instance: kiali-operator
-    version: "v1.45.1"
-    app.kubernetes.io/version: "v1.45.1"
+    version: "v1.63.0"
+    app.kubernetes.io/version: "v1.63.0"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: "kiali-operator"
 rules:
@@ -246,27 +246,10 @@ rules:
   - authentication.istio.io
   - rbac.istio.io
   - security.istio.io
+  - extensions.istio.io
+  - telemetry.istio.io
+  - gateway.networking.k8s.io
   resources: ["*"]
-  verbs:
-  - get
-  - list
-  - watch
-  - create
-  - delete
-  - patch
-- apiGroups: ["authentication.maistra.io"]
-  resources:
-  - servicemeshpolicies
-  verbs:
-  - get
-  - list
-  - watch
-  - create
-  - delete
-  - patch
-- apiGroups: ["rbac.maistra.io"]
-  resources:
-  - servicemeshrbacconfigs
   verbs:
   - get
   - list
@@ -292,16 +275,6 @@ rules:
   - routes
   verbs:
   - get
-- apiGroups: ["iter8.tools"]
-  resources:
-  - experiments
-  verbs:
-  - get
-  - list
-  - watch
-  - create
-  - delete
-  - patch
 - apiGroups: ["authentication.k8s.io"]
   resources:
   - tokenreviews

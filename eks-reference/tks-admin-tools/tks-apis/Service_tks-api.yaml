@@ -1,0 +1,21 @@
+# Source: tks-apis/templates/tks-api/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: tks-api
+  namespace: tks
+  labels:
+    helm.sh/chart: tks-apis-0.1.2
+    app.kubernetes.io/service: tks
+    app.kubernetes.io/name: tks-api
+    app.kubernetes.io/version: "0.1.2"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: NodePort
+  ports:
+    - port: 9110
+      targetPort: 9110
+      protocol: TCP
+  selector:
+    app.kubernetes.io/service: tks
+    app.kubernetes.io/name: tks-api

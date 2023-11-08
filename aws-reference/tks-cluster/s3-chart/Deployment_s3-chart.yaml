@@ -45,7 +45,7 @@ spec:
         - "$(ACK_WATCH_NAMESPACE)"
         - --deletion-policy
         - "$(DELETION_POLICY)"
-        image: harbor-cicd.taco-cat.xyz/tks/s3-controller:v1.0.3
+        image: harbor.taco-cat.xyz/tks/s3-controller:v1.0.3
         imagePullPolicy: IfNotPresent
         name: controller
         ports:

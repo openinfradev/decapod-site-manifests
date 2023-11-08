@@ -6,8 +6,7 @@ metadata:
   name: cluster.local
   namespace: byoh-reference
 spec:
-  bundleLookupBaseRegistry: projects.registry.vmware.com/cluster_api_provider_bringyourownhost
-  bundleLookupTag: v1.22.3
+  bundleLookupBaseRegistry: harbor.taco-cat.xyz/cluster_api_provider_bringyourownhost
   controlPlaneEndpoint:
-    host: TO_BE_FIXED
-    port: TO_BE_FIXED
+    host: CHANGEME
+    port: CHANGEME

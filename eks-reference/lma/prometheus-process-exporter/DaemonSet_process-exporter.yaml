@@ -49,7 +49,7 @@ spec:
       initContainers:
         
         - name: init
-          image: "harbor-cicd.taco-cat.xyz/tks/kubernetes-entrypoint:v1.0.0"
+          image: "harbor.taco-cat.xyz/tks/kubernetes-entrypoint:v1.0.0"
           imagePullPolicy: IfNotPresent  
           securityContext:
             allowPrivilegeEscalation: false
@@ -86,7 +86,7 @@ spec:
             []
       containers:
         - name: process-exporter
-          image: "harbor-cicd.taco-cat.xyz/tks/process-exporter:0.2.11"
+          image: "harbor.taco-cat.xyz/tks/process-exporter:0.2.11"
           imagePullPolicy: IfNotPresent
           
           

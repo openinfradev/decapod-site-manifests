@@ -15,11 +15,45 @@ spec:
           targetPort: 9200
         type: NodePort
   version: 7.5.1
-  image: harbor-cicd.taco-cat.xyz/tks/elasticsearch:7.5.1
+  image: harbor.taco-cat.xyz/tks/elasticsearch:7.5.1
   podDisruptionBudget: {}
   nodeSets:
-  - name: hotdata
+  - name: client
     count: 1
+    config:
+      node.data: false
+      node.ingest: false
+      node.master: false
+      node.store.allow_mmap: false
+    podTemplate:
+      spec:
+        initContainers:
+        - name: sysctl
+          securityContext:
+            privileged: true
+          command: ['sh', '-c', 'sysctl -w vm.max_map_count=262144']
+        containers:
+        - name: elasticsearch
+          resources:
+            limits:
+              memory: "4Gi"
+              cpu: 2   
+          env:
+          - name: ES_JAVA_OPTS
+            value: "-Xms2g -Xmx2g"
+        nodeSelector:
+          taco-lma: enabled
+    volumeClaimTemplates:
+      - metadata:
+          name: elasticsearch-data
+        spec:
+          accessModes: [ReadWriteOnce]
+          resources:
+            requests:
+              storage: 0.5Gi
+          storageClassName: taco-storage
+  - name: hotdata
+    count: 3
     config:
       node.attr.hotwarm: hot
       node.data: true
@@ -37,11 +71,11 @@ spec:
         - name: elasticsearch
           resources:
             limits:
-              memory: "2Gi"
-              cpu: 2   
+              memory: "4Gi"
+              cpu: 1   
           env:
           - name: ES_JAVA_OPTS
-            value: "-Xms1g -Xmx1g"
+            value: "-Xms2g -Xmx2g"
         nodeSelector:
           taco-lma: enabled
     volumeClaimTemplates:
@@ -51,10 +85,10 @@ spec:
           accessModes: [ReadWriteOnce]
           resources:
             requests:
-              storage: 10Gi
+              storage: 100Gi
           storageClassName: taco-storage
   - name: master
-    count: 1
+    count: 3
     config:
       node.data: false
       node.ingest: false
@@ -72,10 +106,10 @@ spec:
           resources:
             limits:
               memory: "4Gi"
-              cpu: 2   
+              cpu: 1   
           env:
           - name: ES_JAVA_OPTS
-            value: "-Xms1g -Xmx1g"
+            value: "-Xms2g -Xmx2g"
         nodeSelector:
           taco-lma: enabled
     volumeClaimTemplates:
@@ -85,5 +119,5 @@ spec:
           accessModes: [ReadWriteOnce]
           resources:
             requests:
-              storage: 1Gi
+              storage: 2Gi
           storageClassName: taco-storage

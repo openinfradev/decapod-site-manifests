@@ -1,4 +1,3 @@
-# Source: cluster-api-aws/templates/machine-deployment.yaml
 apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
 kind: AWSMachineTemplate
 metadata:

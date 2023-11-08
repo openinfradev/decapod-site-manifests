@@ -1,0 +1,13 @@
+# Source: tks-apis/templates/tks-api/clusterrolebinding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: tks-api
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: tks-api
+subjects:
+- kind: ServiceAccount
+  name: tks-api
+  namespace: tks

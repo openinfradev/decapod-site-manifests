@@ -1,0 +1,17 @@
+# Source: k8ssandra-operator/charts/cass-operator/templates/webhook-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: k8ssandra-operator-cass-operator-webhook-service
+  labels:     
+    app.kubernetes.io/name: cass-operator
+    helm.sh/chart: cass-operator-0.40.0
+    app.kubernetes.io/instance: k8ssandra-operator
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/part-of: k8ssandra-k8ssandra-operator-tks-msa
+spec:
+  ports:
+    - port: 443
+      targetPort: 9443
+  selector:
+    control-plane: k8ssandra-operator-cass-operator-controller-manager

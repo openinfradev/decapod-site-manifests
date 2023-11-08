@@ -1,0 +1,19 @@
+---
+# Source: cluster-autoscaler/templates/pdb.yaml
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  labels:
+    app.kubernetes.io/instance: "cluster-autoscaler"
+    app.kubernetes.io/name: "TO_BE_FIXED-cluster-autoscaler"
+    app.kubernetes.io/managed-by: "Helm"
+    helm.sh/chart: "cluster-autoscaler-9.29.4"
+  name: cluster-autoscaler-TO_BE_FIXED-cluster-autoscaler
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: "cluster-autoscaler"
+      app.kubernetes.io/name: "TO_BE_FIXED-cluster-autoscaler"
+  
+  maxUnavailable: 1

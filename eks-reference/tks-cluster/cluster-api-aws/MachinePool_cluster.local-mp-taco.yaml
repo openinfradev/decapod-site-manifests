@@ -4,9 +4,11 @@ kind: MachinePool
 metadata:
   name: cluster.local-mp-taco
   namespace: eks-reference
+  annotations:
+    cluster.x-k8s.io/replicas-managed-by: "external-autoscaler"
 spec:
   clusterName: cluster.local
-  replicas: 3
+  replicas: CHNAGEME
   template:
     metadata:
       labels:
@@ -22,5 +24,4 @@ spec:
         kind: AWSManagedMachinePool
         name: cluster.local-mp-taco
         namespace: eks-reference
-      version: v1.22.5
-
+      version: v1.25.9

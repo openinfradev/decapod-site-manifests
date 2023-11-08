@@ -1,0 +1,64 @@
+# Source: gatekeeper/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gatekeeper
+  labels:
+    helm.sh/chart: gatekeeper-0.1.39
+    app.kubernetes.io/name: gatekeeper
+    app.kubernetes.io/instance: gatekeeper
+    app.kubernetes.io/version: "2.8.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: gatekeeper
+      app.kubernetes.io/instance: gatekeeper
+  template:
+    metadata:
+      annotations:
+        checksum/config: "12b0f35d79e0fa3ac3fb51e30ecc6d3b584b6cfb1c24212d49a3df5eb82ad15f"
+      labels:
+        app.kubernetes.io/name: gatekeeper
+        app.kubernetes.io/instance: gatekeeper
+    spec:
+      automountServiceAccountToken: false
+      serviceAccountName: gatekeeper
+      containers:
+        - name: gatekeeper
+          securityContext:
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+          image: "harbor.taco-cat.xyz/tks/gatekeeper:2.8.0"
+          imagePullPolicy: IfNotPresent
+          args:
+            - --config
+            - /etc/gatekeeper/config.yaml
+          ports:
+            - name: proxy
+              containerPort: 3000
+              protocol: TCP
+            - name: admin
+              containerPort: 4000
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /oauth/health
+              port: admin
+          resources:
+            limits: {}
+            requests: {}
+          volumeMounts:
+            - mountPath: /etc/gatekeeper
+              name: config
+      volumes:
+        - secret:
+            secretName: gatekeeper
+          name: config
+

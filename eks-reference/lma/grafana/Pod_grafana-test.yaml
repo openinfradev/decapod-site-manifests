@@ -15,9 +15,11 @@ metadata:
   namespace: lma
 spec:
   serviceAccountName: grafana-test
+  nodeSelector:
+    taco-lma: enabled
   containers:
     - name: grafana-test
-      image: "harbor-cicd.taco-cat.xyz/tks/bats:v1.4.1"
+      image: "harbor.taco-cat.xyz/tks/bats:v1.4.1"
       imagePullPolicy: "IfNotPresent"
       command: ["/opt/bats/bin/bats", "-t", "/tests/run.sh"]
       volumeMounts:

@@ -27,8 +27,5 @@ spec:
         protocol: tcp
         toPort: 5473
   bastion:
-    enabled: true
-    instanceType: t3.micro
-    disableIngressRules: false
-    allowedCIDRBlocks:
-      - 127.0.0.1/32
+    enabled: false
+  imageLookupBaseOS: ubuntu-20.04

@@ -24,7 +24,7 @@ spec:
       - name: event-exporter
         # The good practice would be to pin the version. This is just a reference so that we don't
         # have to update this file in each release.
-        image: "harbor-cicd.taco-cat.xyz/tks/kubernetes-event-exporter:v1.0"
+        image: "harbor.taco-cat.xyz/tks/kubernetes-event-exporter:v1.0"
         imagePullPolicy: IfNotPresent
         args:
           - -conf=/data/config.yaml
@@ -34,7 +34,7 @@ spec:
         - mountPath: /data
           name: cfg
       - name: fluentbit
-        image: "harbor-cicd.taco-cat.xyz/tks/fluent-bit:1.9.7-debug"
+        image: "harbor.taco-cat.xyz/tks/fluent-bit:1.9.7-debug"
         command: ['sh', '-c', '/fluent-bit/bin/fluent-bit -c /fluent-bit/config/fluent-bit.conf']
         env:
         - name: FLUENT_LOKI_HOST

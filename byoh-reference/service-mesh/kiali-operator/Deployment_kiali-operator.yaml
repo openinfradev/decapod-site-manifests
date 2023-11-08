@@ -3,14 +3,14 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: kiali-operator
-  namespace: istio-system
+  namespace: tks-msa
   labels:
-    helm.sh/chart: kiali-operator-1.45.1
+    helm.sh/chart: kiali-operator-1.63.0
     app: kiali-operator
     app.kubernetes.io/name: kiali-operator
     app.kubernetes.io/instance: kiali-operator
-    version: "v1.45.1"
-    app.kubernetes.io/version: "v1.45.1"
+    version: "v1.63.0"
+    app.kubernetes.io/version: "v1.63.0"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: "kiali-operator"
 spec:
@@ -22,16 +22,16 @@ spec:
   template:
     metadata:
       name: kiali-operator
-      namespace: istio-system
+      namespace: tks-msa
       labels:
         # required for the operator SDK metric service selector
         name: kiali-operator
-        helm.sh/chart: kiali-operator-1.45.1
+        helm.sh/chart: kiali-operator-1.63.0
         app: kiali-operator
         app.kubernetes.io/name: kiali-operator
         app.kubernetes.io/instance: kiali-operator
-        version: "v1.45.1"
-        app.kubernetes.io/version: "v1.45.1"
+        version: "v1.63.0"
+        app.kubernetes.io/version: "v1.63.0"
         app.kubernetes.io/managed-by: Helm
         app.kubernetes.io/part-of: "kiali-operator"
       annotations:
@@ -39,10 +39,10 @@ spec:
     spec:
       serviceAccountName: kiali-operator
       nodeSelector:
-        servicemesh: enabled
+        tks-msa: enabled
       containers:
       - name: operator
-        image: "harbor-cicd.taco-cat.xyz/tks/kiali-operator:v1.45.1"
+        image: "harbor.taco-cat.xyz/tks/kiali-operator:v1.63.0"
         imagePullPolicy: Always
         args:
         - "--zap-log-level=info"
@@ -51,6 +51,9 @@ spec:
           allowPrivilegeEscalation: false
           privileged: false
           runAsNonRoot: true
+          capabilities:
+            drop:
+            - ALL
         volumeMounts:
         - mountPath: /tmp/ansible-operator/runner
           name: runner
@@ -69,6 +72,12 @@ spec:
           value: "true"
         - name: ALLOW_AD_HOC_KIALI_IMAGE
           value: "true"
+        - name: ALLOW_SECURITY_CONTEXT_OVERRIDE
+          value: "false"
+        - name: ALLOW_ALL_ACCESSIBLE_NAMESPACES
+          value: "true"
+        - name: ACCESSIBLE_NAMESPACES_LABEL
+          value: ""
         - name: PROFILE_TASKS_TASK_OUTPUT_LIMIT
           value: "100"
         - name: ANSIBLE_DEBUG_LOGS

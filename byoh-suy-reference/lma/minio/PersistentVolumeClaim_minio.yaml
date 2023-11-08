@@ -1,0 +1,18 @@
+# Source: minio/templates/pvc.yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: minio
+  namespace: "lma"
+  labels:
+    app: minio
+    chart: minio-5.0.4
+    release: minio
+    heritage: Helm
+spec:
+  accessModes:
+    - "ReadWriteOnce"
+  resources:
+    requests:
+      storage: "2000Gi"
+  storageClassName: "taco-storage"

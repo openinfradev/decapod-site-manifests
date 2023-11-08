@@ -1,0 +1,80 @@
+# Source: minio/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minio
+  namespace: "lma"
+  labels:
+    app: minio
+    chart: minio-5.0.4
+    release: minio
+    heritage: Helm
+spec:
+  strategy:
+    type: Recreate
+  replicas: 1
+  selector:
+    matchLabels:
+      app: minio
+      release: minio
+  template:
+    metadata:
+      name: minio
+      labels:
+        app: minio
+        release: minio
+      annotations:
+        checksum/secrets: 15564cde0c4cb3901c078a96ab159c15a4f04614d24d4a4ae5719faf948561c3
+        checksum/config: f9dbb96c1fd9152091692aee9b30e4c6740f8a66ea4b1796b31ecf1f9bc3aabe
+    spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+
+      serviceAccountName: minio-sa
+      containers:
+        - name: minio
+          image: "harbor.taco-cat.xyz/tks/minio:RELEASE.2023-01-20T02-05-44Z"
+          imagePullPolicy: IfNotPresent
+          command:
+            - "/bin/sh"
+            - "-ce"
+            - "/usr/bin/docker-entrypoint.sh minio server /export -S /etc/minio/certs/ --address :9000 --console-address :9001"
+          volumeMounts:
+            - name: minio-user
+              mountPath: "/tmp/credentials"
+              readOnly: true
+            - name: export
+              mountPath: /export            
+          ports:
+            - name: http
+              containerPort: 9000
+            - name: http-console
+              containerPort: 9001
+          env:
+            - name: MINIO_ROOT_USER
+              valueFrom:
+                secretKeyRef:
+                  name: minio
+                  key: rootUser
+            - name: MINIO_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: minio
+                  key: rootPassword
+            - name: MINIO_PROMETHEUS_AUTH_TYPE
+              value: "public"
+          resources:
+            limits:
+              memory: 2Gi
+            requests:
+              memory: 1Gi      
+      volumes:
+        - name: export
+          persistentVolumeClaim:
+            claimName: minio
+        - name: minio-user
+          secret:
+            secretName: minio

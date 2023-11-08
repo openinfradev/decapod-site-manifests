@@ -1,0 +1,74 @@
+# Source: tks-apis/templates/tks-api/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tks-api
+  namespace: tks
+  labels:
+    helm.sh/chart: tks-apis-0.1.2
+    app.kubernetes.io/service: tks
+    app.kubernetes.io/name: tks-api
+    app.kubernetes.io/version: "0.1.2"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/service: tks
+      app.kubernetes.io/name: tks-api
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/service: tks
+        app.kubernetes.io/name: tks-api
+    spec:
+      serviceAccountName: tks-api
+      securityContext:
+        null
+      containers:
+        - name: tks-apis
+          securityContext:
+            null
+          image: "harbor.taco-cat.xyz/tks/tks-api:v3.1.0"
+          imagePullPolicy: Always
+          ports:
+            - name: tks-api
+              containerPort: 9110
+              protocol: TCP
+          command:
+            - /app/backend/bin/server
+          args: [
+            "-port", "9110",
+            "-revision", "main",
+            "-git-account", "decapod10",
+            "-dbname", "tks",
+            "-dbhost", "${DATABASE_HOST}",
+            "-dbport", "5432",
+            "-dbuser", "tksuser",
+            "-dbpassword", "${COMMON_PASSWORD}",
+            "-argo-address", "http://argo-workflows-operator-server.argo.svc",
+            "-argo-port", "2746",
+            "-external-gitea-url", "TO_BE_FIXED",
+
+            "-image-registry-url", "harbor.taco-cat.xyz/appserving",
+            "-harbor-pw-secret", "harbor-core",
+            "-git-repository-url", "github.com/openinfradev",
+
+            "-keycloak-address", "http://keycloak.keycloak.svc.cluster.local/auth",
+            "-keycloak-admin", "admin",
+            "-keycloak-password", "${COMMON_PASSWORD}",
+            "-keycloak-client-secret", "secret",
+
+            "-mail-provider", "smtp",
+            "-smtp-host", "TO_BE_FIXED",
+            "-smtp-port", "TO_BE_FIXED",
+            "-smtp-username", "TO_BE_FIXED",
+            "-smtp-password", "TO_BE_FIXED",
+            "-smtp-from-email", "TO_BE_FIXED",
+
+            "-aws-region", "ap-northeast-2",
+            "-aws-access-key-id", "AWS_SECRET_KEY",
+            "-aws-secret-access-key", "AWS_SECRET_ACCESS_KEY"
+          ]
+          resources:
+            null

@@ -1,0 +1,19 @@
+# Source: thanos/templates/compactor/pvc.yaml
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: thanos-compactor
+  namespace: "lma"
+  labels:
+    app.kubernetes.io/name: thanos
+    helm.sh/chart: thanos-12.3.2-skt
+    app.kubernetes.io/instance: thanos
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: compactor
+spec:
+  accessModes:
+    - "ReadWriteOnce"
+  resources:
+    requests:
+      storage: "8Gi"
+  storageClassName: taco-storage

@@ -9,4 +9,9 @@ spec:
     spec:
       selector:
         matchLabels:
-          role: worker
+          role: cluster.local-worker
+      installerRef:
+        apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+        kind: K8sInstallerConfigTemplate
+        name: cluster.local-md-normal
+        namespace: byoh-reference

@@ -39,7 +39,7 @@ spec:
         runAsUser: 472
       initContainers:
         - name: init-chown-data
-          image: "harbor-cicd.taco-cat.xyz/tks/busybox:latest"
+          image: "harbor.taco-cat.xyz/tks/busybox:latest"
           imagePullPolicy: IfNotPresent
           securityContext:
             runAsNonRoot: false
@@ -55,7 +55,7 @@ spec:
       enableServiceLinks: true
       containers:
         - name: grafana-sc-dashboard
-          image: "harbor-cicd.taco-cat.xyz/tks/k8s-sidecar:1.14.2"
+          image: "harbor.taco-cat.xyz/tks/k8s-sidecar:1.14.2"
           imagePullPolicy: IfNotPresent
           env:
             - name: METHOD
@@ -86,7 +86,7 @@ spec:
             - name: sc-dashboard-volume
               mountPath: "/tmp/dashboards"
         - name: grafana-sc-datasources
-          image: "harbor-cicd.taco-cat.xyz/tks/k8s-sidecar:1.14.2"
+          image: "harbor.taco-cat.xyz/tks/k8s-sidecar:1.14.2"
           imagePullPolicy: IfNotPresent
           env:
             - name: METHOD
@@ -115,7 +115,7 @@ spec:
             - name: sc-datasources-volume
               mountPath: "/etc/grafana/provisioning/datasources"
         - name: grafana
-          image: "harbor-cicd.taco-cat.xyz/tks/grafana:8.3.3"
+          image: "harbor.taco-cat.xyz/tks/grafana:8.3.3"
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: config
@@ -179,6 +179,8 @@ spec:
             httpGet:
               path: /api/health
               port: 3000
+      nodeSelector:
+        taco-lma: enabled
       volumes:
         - name: config
           configMap:

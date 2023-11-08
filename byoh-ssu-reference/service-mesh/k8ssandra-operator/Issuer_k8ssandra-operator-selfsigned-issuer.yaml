@@ -1,0 +1,13 @@
+# Source: k8ssandra-operator/templates/issuer.yaml
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: k8ssandra-operator-selfsigned-issuer
+  labels:     
+    app.kubernetes.io/name: k8ssandra-operator
+    helm.sh/chart: k8ssandra-operator-1.6.0
+    app.kubernetes.io/instance: k8ssandra-operator
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/part-of: k8ssandra-k8ssandra-operator-tks-msa
+spec:
+  selfSigned: {}

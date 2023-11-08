@@ -30,7 +30,7 @@ spec:
       dnsPolicy: ClusterFirstWithHostNet
       containers:
         - name: tigera-operator
-          image: harbor-cicd.taco-cat.xyz/tks/calico-operator:v1.29.0
+          image: harbor.taco-cat.xyz/tks/calico-operator:v1.29.0
           imagePullPolicy: IfNotPresent
           command:
             - operator

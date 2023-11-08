@@ -1,0 +1,54 @@
+# Source: tks-apis/templates/tks-batch/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tks-batch
+  namespace: tks
+  labels:
+    helm.sh/chart: tks-apis-0.1.2
+    app.kubernetes.io/service: tks
+    app.kubernetes.io/name: tks-batch
+    app.kubernetes.io/version: "0.1.2"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/service: tks
+      app.kubernetes.io/name: tks-batch
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/service: tks
+        app.kubernetes.io/name: tks-batch
+    spec:
+      serviceAccountName: tks-batch
+      securityContext:
+        null
+      containers:
+        - name: tks-apis
+          securityContext:
+            null
+          image: "harbor.taco-cat.xyz/tks/tks-batch:v3.1.0"
+          imagePullPolicy: Always
+          ports:
+            - name: tks-batch
+              containerPort: 9110
+              protocol: TCP
+          command:
+            - /app/server
+          args: [
+            "-port", "9110",
+            "-argo-address", "http://argo-workflows-operator-server.argo.svc",
+            "-argo-port", "2746",
+            "-dbhost", "${DATABASE_HOST}",
+            "-dbport", "5432",
+            "-dbuser", "tksuser",
+            "-dbpassword", "${COMMON_PASSWORD}",
+            "-tks-api-address", "http://tks-api.tks.svc",
+            "-tks-api-port", "9110",
+            "-tks-api-account", "admin",
+            "-tks-api-password", "${COMMON_PASSWORD}"
+          ]
+          resources:
+            null

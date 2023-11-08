@@ -1,0 +1,74 @@
+---
+# Source: servicemesh-k8ssandra-resource/templates/k8ssandra.yaml
+apiVersion: k8ssandra.io/v1alpha1
+kind: K8ssandraCluster
+metadata:
+  name: cassandra
+  namespace: tks-msa
+spec:
+  cassandra:
+    serverVersion: 4.0.6
+    clusterName: cassandra
+    telemetry:
+      prometheus:
+        enabled: true
+    jmxInitContainerImage:
+      name: busybox
+      registry: harbor.taco-cat.xyz/tks
+      tag: 1.34.1
+    datacenters:
+    - metadata:
+        name: dc
+      size: 1
+      perNodeConfigInitContainerImage: harbor.taco-cat.xyz/tks/yq:4
+      initContainers:
+      - name: server-config-init
+        image: harbor.taco-cat.xyz/tks/cass-config-builder:1.0-ubi7
+      jmxInitContainerImage:
+        name: busybox
+        registry: harbor.taco-cat.xyz/tks
+        tag: 1.34.1
+      containers:
+      - image: harbor.taco-cat.xyz/tks/cass-management-api:4.0.6
+        name: cassandra
+      - image: harbor.taco-cat.xyz/tks/system-logger:v1.14.0
+        name: server-system-logger
+      config:
+        jvmOptions:
+          heapSize: 2048M
+      storageConfig:
+        cassandraDataVolumeClaimSpec:
+          storageClassName: taco-storage
+          accessModes:
+          - ReadWriteOnce
+          resources:
+            requests:
+              storage: 300Gi
+      racks:
+      - name: tks
+        affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+              - matchExpressions:
+                - key: tks-msa
+                  operator: In
+                  values:
+                  - enabled
+      softPodAntiAffinity: false
+      stargate:
+        size: 1
+        heapSize: 384M
+ #       cassandraConfigMapRef:
+ #         name: cassandra-config
+        allowStargateOnDataNodes: true
+        telemetry:
+          prometheus:
+            enabled: true
+        containerImage:
+          registry: harbor.taco-cat.xyz
+          repository: tks
+          tag: v1.0.67
+        nodeSelector:
+          tks-msa: enabled
+

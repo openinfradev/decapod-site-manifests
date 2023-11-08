@@ -1,0 +1,17 @@
+# Source: cluster-autoscaler/templates/priority-expander-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cluster-autoscaler-priority-expander
+  namespace: kube-system
+  labels:
+    app.kubernetes.io/instance: "cluster-autoscaler"
+    app.kubernetes.io/name: "aws-cluster-autoscaler"
+    app.kubernetes.io/managed-by: "Helm"
+    helm.sh/chart: "cluster-autoscaler-9.29.4"
+data:
+  priorities: |-
+    10:
+      - .*-taco
+    50:
+      - .*-normal

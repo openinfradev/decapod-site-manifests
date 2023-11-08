@@ -1,0 +1,19 @@
+# Source: jaeger-operator/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    
+    app.kubernetes.io/name: jaeger-operator
+    app.kubernetes.io/instance: jaeger-operator
+  name: jaeger-operator-webhook-service
+  namespace: tks-msa
+spec:
+  ports:
+  - port: 443
+    protocol: TCP
+    targetPort: 9443
+  selector:
+    
+    app.kubernetes.io/name: jaeger-operator
+    app.kubernetes.io/instance: jaeger-operator

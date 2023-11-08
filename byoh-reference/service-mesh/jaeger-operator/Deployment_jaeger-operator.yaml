@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: jaeger-operator
-  namespace: istio-system
+  namespace: tks-msa
   labels:
     
     app.kubernetes.io/name: jaeger-operator
@@ -26,17 +26,22 @@ spec:
       serviceAccountName: jaeger-operator
       containers:
         - name: jaeger-operator
-          image: "harbor-cicd.taco-cat.xyz/tks/jaeger-operator:1.29.1"
+          image: "harbor.taco-cat.xyz/tks/jaeger-operator:1.35.0"
           imagePullPolicy: IfNotPresent
           ports:
           - containerPort: 8383
             name: metrics
+          - containerPort: 9443
+            name: webhook-server
+            protocol: TCP  
+          volumeMounts:
+          - mountPath: /tmp/k8s-webhook-server/serving-certs
+            name: cert
+            readOnly: true
           args: ["start"]
           env:
             - name: WATCH_NAMESPACE
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.namespace
+              value: ""
             - name: POD_NAME
               valueFrom:
                 fieldRef:
@@ -49,6 +54,10 @@ spec:
               value: "jaeger-operator"
           resources:
             {}
+      volumes:
+      - name: cert
+        secret:
+          defaultMode: 420
+          secretName: jaeger-operator-service-cert
       nodeSelector:
-        servicemesh: enabled
-
+        tks-msa: enabled

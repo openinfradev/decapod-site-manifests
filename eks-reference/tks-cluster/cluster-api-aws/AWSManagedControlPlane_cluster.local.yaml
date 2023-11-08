@@ -8,14 +8,16 @@ spec:
   eksClusterName: cluster.local
   region: CHANGEME
   sshKeyName: CHANGEME
-  version: v1.22.5
+  version: v1.25.9
   addons:
     - conflictResolution: overwrite
       name: aws-ebs-csi-driver
-      version: v1.15.0-eksbuild.1
+      version: v1.18.0-eksbuild.1
     - conflictResolution: overwrite
       name: vpc-cni
-      version: v1.10.1-eksbuild.1
+      version: v1.12.6-eksbuild.2
   identityRef:
     kind: AWSClusterRoleIdentity
     name: CHANGEME-account-role
+  bastion:
+    enabled: false

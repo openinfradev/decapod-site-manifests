@@ -22,14 +22,14 @@ spec:
         app.kubernetes.io/name: kubed
         app.kubernetes.io/instance: kubed
       annotations:
-        checksum/apiregistration.yaml: 4cd2bf210d8ea94f7a8422cc16cbbe0c3b9a9890039a693fc30e6b9d45328cc2
+        checksum/apiregistration.yaml: 357bc66df09cd3b4a4a1dce6b5545ca0e92fb205047f61896c022434800b7076
     spec:
       serviceAccountName: kubed
       containers:
       - name: kubed
         securityContext:
           {}
-        image: harbor-cicd.taco-cat.xyz/tks/kubed:v0.12.0
+        image: harbor.taco-cat.xyz/tks/kubed:v0.12.0
         imagePullPolicy: IfNotPresent
         args:
         - run

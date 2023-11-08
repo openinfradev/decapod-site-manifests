@@ -121,8 +121,8 @@ data:
     
     
     # Create the buckets
-    createBucket thanos "public" false true false
-    createBucket loki "public" false true false
+    createBucket tks-thanos "public" false true false
+    createBucket tks-loki "public" false true false
     
   add-user: |-
     #!/bin/sh
@@ -398,3 +398,10 @@ data:
     # Try connecting to MinIO instance
     scheme=http
     connectToMinio $scheme
+    
+    
+    # Run custom commands
+    runCommand ilm rule add --expire-days 90 myminio/tks-thanos
+    runCommand ilm rule add --expire-days 15 myminio/tks-loki
+    runCommand ilm ls myminio/tks-thanos
+    runCommand ilm ls myminio/tks-loki

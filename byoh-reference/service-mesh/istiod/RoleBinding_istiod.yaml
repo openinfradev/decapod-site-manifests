@@ -3,7 +3,7 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
   name: istiod
-  namespace: istio-system
+  namespace: tks-msa
   labels:
     app: istiod
     release: istiod
@@ -14,4 +14,4 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: istiod
-    namespace: istio-system
+    namespace: tks-msa

@@ -4,10 +4,11 @@ apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
   name: tcp-stats-filter-1.13
-  namespace: istio-system
+  namespace: tks-msa
   labels:
     istio.io/rev: default
 spec:
+  priority: -1
   configPatches:
     - applyTo: NETWORK_FILTER
       match:
@@ -33,15 +34,7 @@ spec:
                   value: |
                     {
                       "debug": "false",
-                      "stat_prefix": "istio",
-                      "metrics": [
-                        {
-                          "dimensions": {
-                            "destination_cluster": "node.metadata['CLUSTER_ID']",
-                            "source_cluster": "downstream_peer.cluster_id"
-                          }
-                        }
-                      ]
+                      "stat_prefix": "istio"
                     }
                 vm_config:
                   vm_id: tcp_stats_inbound

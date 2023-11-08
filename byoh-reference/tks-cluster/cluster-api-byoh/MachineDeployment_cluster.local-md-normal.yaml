@@ -4,12 +4,9 @@ kind: MachineDeployment
 metadata:
   name: cluster.local-md-normal
   namespace: byoh-reference
-  annotations:
-    cluster.x-k8s.io/cluster-api-autoscaler-node-group-min-size: "1"
-    cluster.x-k8s.io/cluster-api-autoscaler-node-group-max-size: "5"
 spec:
   clusterName: cluster.local
-  replicas: 1
+  replicas: CHANGEME
   selector:
     matchLabels: null
   template:
@@ -25,5 +22,5 @@ spec:
         apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
         kind: ByoMachineTemplate
         name: cluster.local-md-normal
-      version: v1.22.3
+      version: v1.25.11
 

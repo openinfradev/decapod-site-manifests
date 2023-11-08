@@ -8,7 +8,7 @@ spec:
   template:
     spec:
       iamInstanceProfile: control-plane.cluster-api-provider-aws.sigs.k8s.io
-      instanceType: t3.medium
+      instanceType: m6i.2xlarge
       sshKeyName: CHANGEME
       rootVolume:
         size: 20

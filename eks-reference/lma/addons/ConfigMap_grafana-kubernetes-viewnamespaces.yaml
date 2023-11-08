@@ -1660,7 +1660,7 @@ data:
       "timepicker": {},
       "timezone": "",
       "title": "[TKS] Kubernetes / View / Namespaces",
-      "uid": "tks-IcQ5PXK4k",
+      "uid": "tks_namespace_dashboard",
       "version": 1,
       "weekStart": ""
     }

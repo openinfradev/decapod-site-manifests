@@ -6,9 +6,9 @@ metadata:
   namespace: lma
   labels:
     app.kubernetes.io/name: fluent-bit
-    app.kubernetes.io/version: 25bc31cd4333f7f77435561ec70bc68e0c73a194
+    app.kubernetes.io/version: v2.1.4
 spec:
-  image: "harbor-cicd.taco-cat.xyz/tks/fluentbit:25bc31cd4333f7f77435561ec70bc68e0c73a194"
+  image: "harbor.taco-cat.xyz/tks/fluent-bit:v2.1.4"
   positionDB:
     hostPath:
       path: /var/log/flb_kube.db

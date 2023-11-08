@@ -23,7 +23,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: 9a844c63413a2b39479013fbcfe8f8f112e50b18d87e8d4b1d24bcfd838370d1
+        checksum/config: 0dcaa677327a4d6d2fac438bc1470c7928febc6342fb60ba903f019fb880a35e
       labels:
         app.kubernetes.io/name: loki-distributed
         app.kubernetes.io/instance: loki
@@ -39,7 +39,7 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
         - name: nginx
-          image: harbor-cicd.taco-cat.xyz/tks/nginx-unprivileged:1.19-alpine
+          image: harbor.taco-cat.xyz/tks/nginx-unprivileged:1.19-alpine
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
@@ -90,6 +90,8 @@ spec:
                     app.kubernetes.io/component: gateway
                 topologyKey: failure-domain.beta.kubernetes.io/zone
         
+      nodeSelector:
+        taco-lma: enabled
       volumes:
         - name: config
           configMap:

@@ -6,14 +6,14 @@ metadata:
   namespace: aws-reference
 spec:
   awsLaunchTemplate:
-    instanceType: t3.2xlarge
+    instanceType: CHANGEME
     sshKeyName: CHANGEME
     iamInstanceProfile: "nodes.cluster-api-provider-aws.sigs.k8s.io"
     rootVolume:
       size: 200
       type: gp2
-  maxSize: 16
-  minSize: 1
+  maxSize: CHANGEME
+  minSize: 0
   subnets:
   - filters:
     - name: "tag:sigs.k8s.io/cluster-api-provider-aws/role"

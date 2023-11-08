@@ -15,7 +15,7 @@ spec:
           targetPort: 9200
         type: NodePort
   version: 7.5.1
-  image: harbor-cicd.taco-cat.xyz/tks/elasticsearch:7.5.1
+  image: harbor.taco-cat.xyz/tks/elasticsearch:7.5.1
   podDisruptionBudget: {}
   nodeSets:
   - name: client

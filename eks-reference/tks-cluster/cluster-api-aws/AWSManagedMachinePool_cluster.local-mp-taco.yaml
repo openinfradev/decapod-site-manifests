@@ -6,10 +6,13 @@ metadata:
   namespace: eks-reference
 spec:
   eksNodegroupName: cluster.local-mp-taco
-  instanceType: t3.2xlarge
+  instanceType: CHANGEME
   diskSize: 200
   scaling:
-    maxSize: 16
-    minSize: 1
+    maxSize: CHANGEME
+    minSize: 0
   remoteAccess:
     sshKeyName: CHANGEME
+  roleAdditionalPolicies:
+  - arn:aws:iam::aws:policy/AmazonS3FullAccess
+  - arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy

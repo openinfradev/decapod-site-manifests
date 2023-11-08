@@ -6,7 +6,7 @@ metadata:
   namespace: byoh-reference
 spec:
   clusterName: cluster.local
-  replicas: 1
+  replicas: CHNAGEME
   selector:
     matchLabels: null
   template:
@@ -27,4 +27,4 @@ spec:
         apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
         kind: ByoMachineTemplate
         name: cluster.local-md-taco
-      version: v1.22.3
+      version: v1.25.11

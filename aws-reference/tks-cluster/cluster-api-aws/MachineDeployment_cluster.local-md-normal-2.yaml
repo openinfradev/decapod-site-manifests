@@ -1,0 +1,28 @@
+# Source: cluster-api-aws/templates/machine-deployment.yaml
+apiVersion: cluster.x-k8s.io/v1beta1
+kind: MachineDeployment
+metadata:
+  name: cluster.local-md-normal-2
+  namespace: aws-reference
+  annotations:
+    cluster.x-k8s.io/cluster-api-autoscaler-node-group-min-size: "CHANGEME"
+    cluster.x-k8s.io/cluster-api-autoscaler-node-group-max-size: "CHANGEME"
+spec:
+  clusterName: cluster.local
+  replicas: CHANGEME
+  template:
+    spec:
+      bootstrap:
+        configRef:
+          apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
+          kind: KubeadmConfigTemplate
+          name: cluster.local-md-normal
+      clusterName: cluster.local
+      failureDomain: CHANGEMEc
+      infrastructureRef:
+        apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+        kind: AWSMachineTemplate
+        name: cluster.local-md-normal
+      version: v1.26.10
+  selector:
+        matchLabels: null

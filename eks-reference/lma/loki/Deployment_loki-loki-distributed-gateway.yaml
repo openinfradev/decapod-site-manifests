@@ -39,7 +39,7 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
         - name: nginx
-          image: harbor-cicd.taco-cat.xyz/tks/nginx-unprivileged:1.19-alpine
+          image: harbor.taco-cat.xyz/tks/nginx-unprivileged:1.19-alpine
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
@@ -90,6 +90,8 @@ spec:
                     app.kubernetes.io/component: gateway
                 topologyKey: failure-domain.beta.kubernetes.io/zone
         
+      nodeSelector:
+        taco-lma: enabled
       volumes:
         - name: config
           configMap:

@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: istiod
-  namespace: istio-system
+  namespace: tks-msa
   labels:
     app: istiod
     istio.io/rev: default
@@ -12,6 +12,7 @@ metadata:
     istio: pilot
     release: istiod
 spec:
+  replicas: 1
   strategy:
     rollingUpdate:
       maxSurge: 100%
@@ -34,13 +35,13 @@ spec:
         sidecar.istio.io/inject: "false"
     spec:
       nodeSelector:
-        servicemesh: enabled
+        tks-msa: enabled
       serviceAccountName: istiod
       securityContext:
         fsGroup: 1337
       containers:
         - name: discovery
-          image: "harbor-cicd.taco-cat.xyz/tks/pilot:1.13.1"
+          image: "harbor.taco-cat.xyz/tks/pilot:1.17.2"
           args:
           - "discovery"
           - --monitoringAddr=:15014
@@ -88,13 +89,13 @@ spec:
           - name: KUBECONFIG
             value: /var/run/secrets/remote/config
           - name: PILOT_TRACE_SAMPLING
-            value: "1"
+            value: "0.1"
           - name: PILOT_ENABLE_PROTOCOL_SNIFFING_FOR_OUTBOUND
             value: "true"
           - name: PILOT_ENABLE_PROTOCOL_SNIFFING_FOR_INBOUND
             value: "true"
           - name: ISTIOD_ADDR
-            value: istiod.istio-system.svc:15012
+            value: istiod.tks-msa.svc:15012
           - name: PILOT_ENABLE_ANALYSIS
             value: "false"
           - name: CLUSTER_ID
@@ -124,6 +125,12 @@ spec:
           - name: istio-kubeconfig
             mountPath: /var/run/secrets/remote
             readOnly: true
+          - name: istio-csr-dns-cert
+            mountPath: /var/run/secrets/istiod/tls
+            readOnly: true
+          - name: istio-csr-ca-configmap
+            mountPath: /var/run/secrets/istiod/ca
+            readOnly: true
       volumes:
       # Technically not needed on this pod - but it helps debugging/testing SDS
       # Should be removed after everything works.
@@ -145,4 +152,14 @@ spec:
       - name: istio-kubeconfig
         secret:
           secretName: istio-kubeconfig
+          optional: true
+      # Optional: istio-csr dns pilot certs
+      - name: istio-csr-dns-cert
+        secret:
+          secretName: istiod-tls
+          optional: true
+      - name: istio-csr-ca-configmap
+        configMap:
+          name: istio-ca-root-cert
+          defaultMode: 420
           optional: true

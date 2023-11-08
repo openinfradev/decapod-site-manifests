@@ -11,11 +11,10 @@ metadata:
   name: prometheus-pushgateway
   namespace: lma
 spec:
-  type: NodePort
+  type: ClusterIP
   ports:
     - port: 9091
       targetPort: 9091
-      nodePort: 30010
       protocol: TCP
       name: http
   selector:

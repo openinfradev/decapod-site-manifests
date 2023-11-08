@@ -1,0 +1,34 @@
+# Source: k8ssandra-operator/charts/cass-operator/templates/validatingwebhookconfiguration.yaml
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: k8ssandra-operator-cass-operator-validating-webhook-configuration
+  labels:     
+    app.kubernetes.io/name: cass-operator
+    helm.sh/chart: cass-operator-0.40.0
+    app.kubernetes.io/instance: k8ssandra-operator
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/part-of: k8ssandra-k8ssandra-operator-tks-msa
+  annotations:
+    cert-manager.io/inject-ca-from: tks-msa/k8ssandra-operator-cass-operator-serving-cert
+webhooks:
+- admissionReviewVersions:
+  - v1
+  clientConfig:
+    service:
+      name: k8ssandra-operator-cass-operator-webhook-service
+      namespace: tks-msa
+      path: /validate-cassandra-datastax-com-v1beta1-cassandradatacenter
+  failurePolicy: Fail
+  name: vcassandradatacenter.kb.io
+  rules:
+  - apiGroups:
+    - cassandra.datastax.com
+    apiVersions:
+    - v1beta1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - cassandradatacenters
+  sideEffects: None

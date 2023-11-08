@@ -30,12 +30,12 @@ data:
       nodeStatusOffLoad: true
       postgresql:
         database: postgres
-        host: postgresql.decapod-db
+        host: ${DATABASE_HOST}
         passwordSecret:
-          key: postgresql-password
+          key: postgres-password
           name: argo-postgres-config
-        port: 5432
+        port: ${DATABASE_PORT}
         tableName: argo_workflows
         userNameSecret:
-          key: postgresql-username
+          key: postgres-username
           name: argo-postgres-config

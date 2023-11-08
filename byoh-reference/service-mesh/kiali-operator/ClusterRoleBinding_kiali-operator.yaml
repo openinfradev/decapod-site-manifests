@@ -4,18 +4,18 @@ kind: ClusterRoleBinding
 metadata:
   name: kiali-operator
   labels:
-    helm.sh/chart: kiali-operator-1.45.1
+    helm.sh/chart: kiali-operator-1.63.0
     app: kiali-operator
     app.kubernetes.io/name: kiali-operator
     app.kubernetes.io/instance: kiali-operator
-    version: "v1.45.1"
-    app.kubernetes.io/version: "v1.45.1"
+    version: "v1.63.0"
+    app.kubernetes.io/version: "v1.63.0"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: "kiali-operator"
 subjects:
 - kind: ServiceAccount
   name: kiali-operator
-  namespace: istio-system
+  namespace: tks-msa
 roleRef:
   kind: ClusterRole
   name: kiali-operator

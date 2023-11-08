@@ -18,7 +18,7 @@ spec:
       app.kubernetes.io/name: ingress-nginx
       app.kubernetes.io/instance: ingress-nginx
       app.kubernetes.io/component: controller
-  replicas: 2
+  replicas: 1
   revisionHistoryLimit: 10
   minReadySeconds: 0
   template:
@@ -31,7 +31,7 @@ spec:
       dnsPolicy: ClusterFirst
       containers:
         - name: controller
-          image: "harbor-cicd.taco-cat.xyz/tks/controller:v1.1.1"
+          image: "harbor.taco-cat.xyz/tks/controller:v1.1.1"
           imagePullPolicy: IfNotPresent
           lifecycle: 
             preStop:
@@ -105,7 +105,7 @@ spec:
               readOnly: true
           resources: 
             requests:
-              cpu: 2000m
+              cpu: 100m
               memory: 4Gi
       nodeSelector: 
         kubernetes.io/os: linux

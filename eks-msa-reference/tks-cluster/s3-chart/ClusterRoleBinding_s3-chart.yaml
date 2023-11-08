@@ -1,0 +1,15 @@
+# Source: s3-chart/templates/cluster-role-binding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+
+kind: ClusterRoleBinding
+metadata:
+  name: s3-chart
+roleRef:
+  kind: ClusterRole
+
+  apiGroup: rbac.authorization.k8s.io
+  name: ack-s3-controller
+subjects:
+- kind: ServiceAccount
+  name: ack-s3-controller
+  namespace: taco-system

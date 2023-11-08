@@ -1,0 +1,17 @@
+# Source: cluster-api-aws/templates/machine-pool.yaml
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
+kind: AWSManagedMachinePool
+metadata:
+  name: cluster.local-mp-normal
+  namespace: eks-reference
+spec:
+  eksNodegroupName: cluster.local-mp-normal
+  instanceType: CHANGEME
+  diskSize: 50
+  scaling:
+    maxSize: CHANGEME
+    minSize: 0
+  remoteAccess:
+    sshKeyName: CHANGEME
+  roleAdditionalPolicies:
+  - arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy

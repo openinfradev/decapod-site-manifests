@@ -6,7 +6,7 @@ metadata:
   namespace: aws-reference
 spec:
   clusterName: cluster.local
-  replicas: 3
+  replicas: CHNAGEME
   template:
     metadata:
       labels:
@@ -26,5 +26,5 @@ spec:
         kind: AWSMachinePool
         name: cluster.local-mp-taco
         namespace: aws-reference
-      version: v1.22.5
+      version: v1.26.10
 

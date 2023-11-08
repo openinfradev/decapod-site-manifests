@@ -43,7 +43,7 @@ spec:
       serviceAccountName: prometheus-node-exporter
       containers:
         - name: node-exporter
-          image: harbor-cicd.taco-cat.xyz/tks/node-exporter:v1.0.1
+          image: harbor.taco-cat.xyz/tks/node-exporter:v1.0.1
           imagePullPolicy: IfNotPresent
           args:
             - --path.procfs=/host/proc

@@ -1,0 +1,21 @@
+# Source: cluster-api-byoh/templates/cluster.yaml
+apiVersion: cluster.x-k8s.io/v1beta1
+kind: Cluster
+metadata:
+  name: cluster.local
+  namespace: byoh-suy-reference
+spec:
+  clusterNetwork:
+    pods:
+      cidrBlocks: [10.233.64.0/18]
+    serviceDomain: cluster.local
+    services:
+      cidrBlocks: [10.233.0.0/18]
+  controlPlaneRef:
+    apiVersion: controlplane.cluster.x-k8s.io/v1beta1
+    kind: KubeadmControlPlane
+    name: cluster.local
+  infrastructureRef:
+    apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+    kind: ByoCluster
+    name: cluster.local

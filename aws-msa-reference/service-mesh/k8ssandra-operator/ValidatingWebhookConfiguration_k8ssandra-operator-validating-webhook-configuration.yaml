@@ -1,0 +1,48 @@
+# Source: k8ssandra-operator/templates/validatingwebhookconfiguration.yaml
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  annotations:
+    cert-manager.io/inject-ca-from: tks-msa/k8ssandra-operator-serving-cert
+  name: k8ssandra-operator-validating-webhook-configuration
+webhooks:
+  - admissionReviewVersions:
+      - v1
+    clientConfig:
+      service:
+        name: k8ssandra-operator-webhook-service
+        namespace: tks-msa
+        path: /validate-medusa-k8ssandra-io-v1alpha1-medusabackupschedule
+    failurePolicy: Fail
+    name: vmedusabackupschedule.kb.io
+    rules:
+    - apiGroups:
+      - medusa.k8ssandra.io
+      apiVersions:
+      - v1alpha1
+      operations:
+      - CREATE
+      - UPDATE
+      resources:
+      - medusabackupschedules
+    sideEffects: None
+  - admissionReviewVersions:
+      - v1
+    clientConfig:
+      service:
+        name: k8ssandra-operator-webhook-service
+        namespace: tks-msa
+        path: /validate-k8ssandra-io-v1alpha1-k8ssandracluster
+    failurePolicy: Fail
+    name: vk8ssandracluster.kb.io
+    rules:
+      - apiGroups:
+          - k8ssandra.io
+        apiVersions:
+          - v1alpha1
+        operations:
+          - CREATE
+          - UPDATE
+        resources:
+          - k8ssandraclusters
+    sideEffects: None

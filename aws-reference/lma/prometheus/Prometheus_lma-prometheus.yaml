@@ -9,9 +9,9 @@ metadata:
     
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/instance: prometheus
-    app.kubernetes.io/version: "44.3.1"
+    app.kubernetes.io/version: "48.3.1"
     app.kubernetes.io/part-of: kube-prometheus-stack
-    chart: kube-prometheus-stack-44.3.1
+    chart: kube-prometheus-stack-48.3.1
     release: "prometheus"
     heritage: "Helm"
 spec:
@@ -22,8 +22,8 @@ spec:
         port: http-web
         pathPrefix: "/"
         apiVersion: v2
-  image: "harbor-cicd.taco-cat.xyz/tks/prometheus:v2.31.1"
-  version: v2.31.1
+  image: "harbor.taco-cat.xyz/tks/prometheus:v2.45.0"
+  version: v2.45.0
   externalLabels:
     taco_cluster: cluster.local
   externalUrl: http://lma-prometheus.lma:9090
@@ -40,6 +40,8 @@ spec:
   scrapeTimeout: 10s
   evaluationInterval: 60s
   retention: "2d"
+  tsdb:
+    outOfOrderTimeWindow: 0s
   walCompression: true
   routePrefix: "/"
   secrets:
@@ -65,11 +67,18 @@ spec:
     runAsGroup: 2000
     runAsNonRoot: true
     runAsUser: 1000
+    seccompProfile:
+      type: RuntimeDefault
   ruleNamespaceSelector:
     matchLabels:
       name: lma
 
   ruleSelector: {}
+  scrapeConfigSelector:
+    matchLabels:
+      release: "prometheus"
+
+  scrapeConfigNamespaceSelector: {}
   storage:
     volumeClaimTemplate:
       spec:
