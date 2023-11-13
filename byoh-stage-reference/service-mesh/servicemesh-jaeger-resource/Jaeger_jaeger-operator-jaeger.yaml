@@ -23,7 +23,7 @@ spec:
         memory: 1024Mi
       limits:
         cpu: 1000m
-        memory: 2Gi
+        memory: 2048Mi
     affinity:
       nodeAffinity:
         requiredDuringSchedulingIgnoredDuringExecution:

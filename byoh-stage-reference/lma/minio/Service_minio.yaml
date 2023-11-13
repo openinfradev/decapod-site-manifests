@@ -10,6 +10,9 @@ metadata:
     release: minio
     heritage: Helm
     monitoring: "true"
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: '*'
+    service.beta.kubernetes.io/aws-load-balancer-type: nlb
 spec:
   type: NodePort
   ports:

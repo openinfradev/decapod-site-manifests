@@ -30,8 +30,8 @@ spec:
       annotations:
         checksum/configmap: 41138a089428e6776014e59b1a37c5e69bedc9331ccdb1f382f1950882ec1b7e
         checksum/configmap-env: c1281bd54513cd48d102ce5f9d05db895b5ba15bb45b603659c17834eb7fa183
-        checksum/secret: 1493a9e631547e76cb298cf103412317165461a5b3c70b1eea88c3d3d598842b
-        checksum/secret-core: 8dc5a083467a3a762ed01bedd4a00e99b49d3f8cf5264d402d739e3f55bd2360
+        checksum/secret: f9779e0a95ccd84eeffd63037f7d377ceb380e8307d02c27f06e046b55aaa76a
+        checksum/secret-core: d97370b81240f22803e796d2d95aec0e80a5d7ed25f33c40c87b2ba81ae125a3
     spec:
       securityContext:
         runAsUser: 10000

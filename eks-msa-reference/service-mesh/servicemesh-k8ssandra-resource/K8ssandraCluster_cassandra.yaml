@@ -19,7 +19,7 @@ spec:
     datacenters:
     - metadata:
         name: dc
-      size: 1
+      size: 3
       perNodeConfigInitContainerImage: harbor.taco-cat.xyz/tks/yq:4
       initContainers:
       - name: server-config-init

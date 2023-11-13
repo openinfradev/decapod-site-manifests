@@ -10,6 +10,9 @@ metadata:
     app.kubernetes.io/instance: grafana
     app.kubernetes.io/version: "8.3.3"
     app.kubernetes.io/managed-by: Helm
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: '*'
+    service.beta.kubernetes.io/aws-load-balancer-type: nlb
 spec:
   type: NodePort
   ports:
