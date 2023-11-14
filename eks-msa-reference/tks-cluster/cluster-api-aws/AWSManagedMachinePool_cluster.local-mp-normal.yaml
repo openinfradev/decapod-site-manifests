@@ -10,7 +10,7 @@ spec:
   diskSize: 50
   scaling:
     maxSize: CHANGEME
-    minSize: 0
+    minSize: CHANGEME
   remoteAccess:
     sshKeyName: CHANGEME
   roleAdditionalPolicies:

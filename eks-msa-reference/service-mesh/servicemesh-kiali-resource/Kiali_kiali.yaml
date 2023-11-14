@@ -25,7 +25,7 @@ spec:
         memory: 1024Mi
     node_selector:
       tks-msa: enabled
-    service_type: ClusterIP
+    service_type: LoadBalancer
   auth:
     strategy: openid
     openid:

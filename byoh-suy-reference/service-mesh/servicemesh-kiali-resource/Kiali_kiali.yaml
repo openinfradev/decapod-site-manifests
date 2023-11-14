@@ -25,9 +25,19 @@ spec:
         memory: 1024Mi
     node_selector:
       tks-msa: enabled
-    service_type: ClusterIP
+    service_type: NodePort
+    additional_service_yaml:
+      nodePort: 30010
   auth:
-    strategy: anonymous
+    strategy: openid
+    openid:
+      client_id: client-prefix-kiali
+      issuer_uri: https://keycloak.com/auth/realms/oraganization
+      username_claim: preferred_username
+      scopes: 
+      - openid
+      - email
+      disable_rbac: true
   external_services:
     custom_dashboards:
       enabled: true

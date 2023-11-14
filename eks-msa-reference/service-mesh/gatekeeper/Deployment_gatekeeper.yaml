@@ -20,7 +20,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: "d0d291a8592eadfdd487ec172f3f66453690b87c6506f151c95e51b724c0cbbb"
+        checksum/config: "5d30be1a8bbf5ff3262853e3043b1c99f55984d06ea825194863f8622ac6390c"
       labels:
         app.kubernetes.io/name: gatekeeper
         app.kubernetes.io/instance: gatekeeper
@@ -61,4 +61,6 @@ spec:
         - secret:
             secretName: gatekeeper
           name: config
+      nodeSelector:
+        tks-msa: enabled
 

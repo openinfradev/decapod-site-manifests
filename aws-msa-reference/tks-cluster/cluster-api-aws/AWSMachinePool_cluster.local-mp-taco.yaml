@@ -13,7 +13,7 @@ spec:
       size: 200
       type: gp2
   maxSize: CHANGEME
-  minSize: 0
+  minSize: CHNAGEME
   subnets:
   - filters:
     - name: "tag:sigs.k8s.io/cluster-api-provider-aws/role"

@@ -30,7 +30,7 @@ spec:
       annotations:
         checksum/configmap: 3a145cb777903ca8ff8fcfcb3c25ed9ee7a426a8b01cf024d6e52d92458b4564
         checksum/secret: a656851d5f972f5f6dd05a5c13a5a0b21527971b9ec7dd91ce85b5699d41790a
-        checksum/secret-core: e2c9c89b8de89abcfd0e9d2f04e910231426bac11ea2552c2f85148594ca653f
+        checksum/secret-core: dcbadea2c3a2a5bf393d876bf886c92e9dbd3439d238b2a4932d98b51e73c3ab
     spec:
       securityContext:
         runAsUser: 10000
