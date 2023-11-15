@@ -11,7 +11,7 @@ metadata:
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: keycloak
 spec:
-  replicas: 1
+  replicas: 3
   podManagementPolicy: Parallel
   serviceName: keycloak-headless
   updateStrategy:

@@ -15,9 +15,9 @@ spec:
         - 127.0.0.1
         - 0.0.0.0
         extraArgs:
-          oidc-client-id: kubernetes
+          oidc-client-id: CHANGEME
           oidc-groups-claim: groups
-          oidc-issuer-url: https://keycloak.domain.com/auth/realms/kubernetes
+          oidc-issuer-url: CHANGEME
           oidc-username-claim: preferred_username
           oidc-username-prefix: '-'
       controllerManager:
