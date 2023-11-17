@@ -10,9 +10,6 @@ metadata:
     app.kubernetes.io/version: "2.6.1"
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/component: gateway
-  annotations:
-    service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: '*'
-    service.beta.kubernetes.io/aws-load-balancer-type: nlb
 spec:
   type: NodePort
   ports:
