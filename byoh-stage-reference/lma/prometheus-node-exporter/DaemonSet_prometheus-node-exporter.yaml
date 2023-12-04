@@ -91,7 +91,7 @@ spec:
               mountPath: /host/root
               mountPropagation: HostToContainer
               readOnly: true
-      hostNetwork: false
+      hostNetwork: true
       hostPID: true
       tolerations:
         - key: node-role.kubernetes.io/control-plane

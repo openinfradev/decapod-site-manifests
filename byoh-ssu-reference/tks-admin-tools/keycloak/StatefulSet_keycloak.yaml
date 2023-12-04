@@ -83,6 +83,10 @@ spec:
               value: "/auth/"
             - name: QUARKUS_TRANSACTION_MANAGER_ENABLE_RECOVERY
               value: "true"
+            - name: KC_HOSTNAME_ADMIN_URL
+              value: https://tks-console-adm.skbroadband.com/auth
+            - name: KC_HOSTNAME_URL
+              value: https://tks-console-adm.skbroadband.com/auth
           envFrom:
             - configMapRef:
                 name: keycloak-env-vars

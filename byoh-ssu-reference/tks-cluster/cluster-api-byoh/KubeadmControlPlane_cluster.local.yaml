@@ -23,6 +23,10 @@ spec:
       controllerManager:
         extraArgs:
           enable-hostpath-provisioner: "false"
+      etcd:
+        local:
+          extraArgs:
+            listen-metrics-urls: http://0.0.0.0:2381
     initConfiguration:
       nodeRegistration:
         criSocket: unix:///var/run/containerd/containerd.sock

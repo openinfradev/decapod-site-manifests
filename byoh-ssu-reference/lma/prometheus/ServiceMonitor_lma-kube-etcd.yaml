@@ -28,10 +28,3 @@ spec:
   - port: http-metrics
     interval: 10s
     bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
-    scheme: https
-    tlsConfig:
-      serverName: localhost
-      caFile: /etc/prometheus/secrets/etcd-client-cert/etcd-ca
-      certFile: /etc/prometheus/secrets/etcd-client-cert/etcd-client
-      keyFile: /etc/prometheus/secrets/etcd-client-cert/etcd-client-key
-      insecureSkipVerify: false
