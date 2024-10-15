@@ -36,4 +36,5 @@ spec:
       rules:
       - $kubernetes['container_name'] ^(kibana|elasticsearch|fluent-bit)$ intended_drop.$TAG false
       - $kubernetes['namespace_name'] ^(kube-system|lma|taco-system|argo)$ seperate-kube-0.$TAG false
+      - $log (update.?error) m_critical.$TAG true
       emitterName: alertrule_match

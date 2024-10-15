@@ -1,0 +1,27 @@
+# Source: gatekeeper/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: gatekeeper
+  labels:
+    helm.sh/chart: gatekeeper-0.1.39
+    app.kubernetes.io/name: gatekeeper
+    app.kubernetes.io/instance: gatekeeper
+    app.kubernetes.io/version: "2.8.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: NodePort
+  ports:
+    - port: 3000
+      targetPort: proxy
+      protocol: TCP
+      name: proxy
+      nodePort: 30012
+    - port: 4000
+      targetPort: admin
+      protocol: TCP
+      name: admin
+      nodePort: 
+  selector:
+    app.kubernetes.io/name: gatekeeper
+    app.kubernetes.io/instance: gatekeeper

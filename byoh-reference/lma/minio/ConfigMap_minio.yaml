@@ -403,5 +403,7 @@ data:
     # Run custom commands
     runCommand ilm rule add --expire-days 90 myminio/tks-thanos
     runCommand ilm rule add --expire-days 15 myminio/tks-loki
+    runCommand ilm rule add --expire-days 15 myminio/tks-loki-user
     runCommand ilm ls myminio/tks-thanos
     runCommand ilm ls myminio/tks-loki
+    runCommand ilm ls myminio/tks-loki-user

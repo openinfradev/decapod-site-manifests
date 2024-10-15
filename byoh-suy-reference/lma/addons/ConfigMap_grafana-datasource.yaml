@@ -20,3 +20,7 @@ data:
       type: loki
       url: http://loki-loki-distributed-gateway:80
       access: proxy
+    - name: Loki-user
+      type: loki
+      url: http://loki-user-loki-distributed-gateway:80
+      access: proxy

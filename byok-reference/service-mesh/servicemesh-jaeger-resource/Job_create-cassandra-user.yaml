@@ -1,0 +1,48 @@
+# Source: servicemesh-jaeger-resource/templates/job-create-cassandra-user.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: create-cassandra-user
+  namespace: tks-msa
+  annotations:
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-weight": "20"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  template:
+    metadata:
+      name: create-cassandra-user-template
+    spec:
+      nodeSelector:
+        tks-msa: enabled
+      containers:
+      - name: cassandra-user
+        image: "harbor.taco-cat.xyz/tks/shyaml_jq_kubectl_python:3.11"
+        imagePullPolicy: "IfNotPresent"
+        env:
+        - name: CASS_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: cassandra-superuser
+              key: username
+        - name: CASS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: cassandra-superuser
+              key: password
+        command:
+        - timeout
+        - 5m
+        - /tmp/create_user.sh
+        volumeMounts:
+        - name: create-cassandra-user-cm
+          mountPath: /tmp/create_user.sh
+          subPath: create_user.sh
+          readOnly: true
+      volumes:
+      - name: create-cassandra-user-cm
+        configMap:
+          name: create-cassandra-user-cm
+          defaultMode: 0777
+      restartPolicy: OnFailure
+

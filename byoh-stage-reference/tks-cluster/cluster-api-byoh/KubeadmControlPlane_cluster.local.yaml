@@ -27,6 +27,9 @@ spec:
         local:
           extraArgs:
             listen-metrics-urls: http://0.0.0.0:2381
+          imageRepository: registry.k8s.io
+          imageTag: 3.5.10-0
+      imageRepository: registry.k8s.io
     initConfiguration:
       nodeRegistration:
         criSocket: unix:///var/run/containerd/containerd.sock

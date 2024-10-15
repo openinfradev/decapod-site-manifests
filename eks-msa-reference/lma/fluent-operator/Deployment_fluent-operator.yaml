@@ -6,6 +6,8 @@ metadata:
   labels:
     app.kubernetes.io/component: operator
     app.kubernetes.io/name: fluent-operator
+  annotations:
+    {}
 spec:
   selector:
     matchLabels:
@@ -25,12 +27,19 @@ spec:
           path: /var/run/docker.sock
       initContainers:
       - name: setenv
-        image: harbor.taco-cat.xyz/tks/docker:19.03
+        image: harbor.taco-cat.xyz/tks/docker:20.10
         command:
         - /bin/sh
         - '-c'
         - set -ex;
           echo CONTAINER_ROOT_DIR=$(docker info -f '{{.DockerRootDir}}' 2> /dev/null) > /fluent-operator/fluent-bit.env
+        resources:
+          limits:
+            cpu: 100m
+            memory: 64Mi
+          requests:
+            cpu: 50m
+            memory: 64Mi
         volumeMounts:
         - name: env
           mountPath: /fluent-operator
@@ -39,7 +48,7 @@ spec:
           mountPath: /var/run/docker.sock
       containers:
       - name: fluent-operator
-        image: harbor.taco-cat.xyz/tks/fluent-operator:v1.5.0
+        image: harbor.taco-cat.xyz/tks/fluent-operator:v2.7.0
         resources:
           limits:
             cpu: 1000m

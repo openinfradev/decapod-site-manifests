@@ -12,4 +12,6 @@ spec:
       sshKeyName: CHANGEME
       rootVolume:
         size: 20
-        type: gp2
+        type: gp3
+      ami:
+        id: ami-02e4e8f09921cfe97

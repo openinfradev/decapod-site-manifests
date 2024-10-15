@@ -1,0 +1,20 @@
+# Source: k8ssandra-operator/charts/cass-operator/templates/validatingwebhookconfiguration.yaml
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: k8ssandra-operator-cass-operator-serving-cert  # this name should match the one appeared in kustomizeconfig.yaml
+  labels:     
+    app.kubernetes.io/name: cass-operator
+    helm.sh/chart: cass-operator-0.40.0
+    app.kubernetes.io/instance: k8ssandra-operator
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/part-of: k8ssandra-k8ssandra-operator-tks-msa
+spec:
+  # $(SERVICE_NAME) and $(SERVICE_NAMESPACE) will be substituted by kustomize
+  dnsNames:
+    -  k8ssandra-operator-cass-operator-webhook-service.tks-msa.svc
+    -  k8ssandra-operator-cass-operator-webhook-service.tks-msa.svc.cluster.local
+  issuerRef:
+    kind: Issuer
+    name: k8ssandra-operator-cass-operator-selfsigned-issuer
+  secretName: k8ssandra-operator-cass-operator-webhook-server-cert # this secret will not be prefixed, since it's not managed by kustomize

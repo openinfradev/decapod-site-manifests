@@ -1,0 +1,25 @@
+# Source: opa-scorecard/templates/servicemonitor_opa-scorecard.yaml
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    helm.sh/chart: opa-scorecard-0.1.0
+    app.kubernetes.io/name: opa-scorecard
+    app.kubernetes.io/instance: opa-exporter
+    app.kubernetes.io/version: "v0.0.4"
+    app.kubernetes.io/managed-by: Helm
+  name: gatekeeper-metrics
+spec:
+  endpoints:
+  - honorLabels: true
+    interval: 10s
+    port: metrics
+  jobLabel: app.kubernetes.io/name
+  namespaceSelector:
+    matchNames:
+    - lma
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: opa-scorecard
+      app.kubernetes.io/instance: opa-exporter
+

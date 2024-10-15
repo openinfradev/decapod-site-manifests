@@ -12,6 +12,8 @@ spec:
     rootVolume:
       size: 200
       type: gp2
+    ami:
+        id: ami-02e4e8f09921cfe97
   maxSize: CHANGEME
   minSize: CHNAGEME
   subnets:

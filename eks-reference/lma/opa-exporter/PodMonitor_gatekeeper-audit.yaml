@@ -1,0 +1,23 @@
+# Source: opa-scorecard/templates/podmonitor_gatekeeper.yaml
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: gatekeeper-audit
+  labels:
+    helm.sh/chart: opa-scorecard-0.1.0
+    app.kubernetes.io/name: opa-scorecard
+    app.kubernetes.io/instance: opa-exporter
+    app.kubernetes.io/version: "v0.0.4"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  selector:
+    matchLabels:
+      app: gatekeeper
+  namespaceSelector:
+    matchNames:
+    - gatekeeper-system
+  podMetricsEndpoints:
+  - port: metrics
+    scheme: http
+    path: /metrics
+    interval: 10s

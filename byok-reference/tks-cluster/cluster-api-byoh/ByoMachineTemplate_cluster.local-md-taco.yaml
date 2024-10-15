@@ -1,0 +1,17 @@
+# Source: cluster-api-byoh/templates/machinedeployment.yaml
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+kind: ByoMachineTemplate
+metadata:
+  name: cluster.local-md-taco
+  namespace: byok-reference
+spec:
+  template:
+    spec:
+      selector:
+        matchLabels:
+          role: cluster.local-tks
+      installerRef:
+        apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+        kind: K8sInstallerConfigTemplate
+        name: cluster.local-md-taco
+        namespace: byok-reference

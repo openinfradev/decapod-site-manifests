@@ -1,0 +1,30 @@
+# Source: kube-prometheus-stack/templates/exporters/kube-dns/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: lma-kube-dns
+  labels:
+    app: kube-prometheus-stack-kube-dns
+    jobLabel: kube-dns
+    
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/instance: prometheus
+    app.kubernetes.io/version: "48.3.1"
+    app.kubernetes.io/part-of: kube-prometheus-stack
+    chart: kube-prometheus-stack-48.3.1
+    release: "prometheus"
+    heritage: "Helm"
+  namespace: kube-system
+spec:
+  clusterIP: None
+  ports:
+    - name: http-metrics-dnsmasq
+      port: 10054
+      protocol: TCP
+      targetPort: 10054
+    - name: http-metrics-skydns
+      port: 10055
+      protocol: TCP
+      targetPort: 10055
+  selector:
+    k8s-app: kube-dns

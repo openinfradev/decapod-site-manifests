@@ -1,4 +1,5 @@
 # Source: fluentbit-resource/templates/fluentbit/outputs.yaml
+# outputs for loki---
 # Loki taco-loki
 apiVersion: fluentbit.fluent.io/v1alpha2
 kind: ClusterOutput

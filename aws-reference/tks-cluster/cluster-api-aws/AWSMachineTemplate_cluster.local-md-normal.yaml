@@ -1,4 +1,4 @@
-apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
 kind: AWSMachineTemplate
 metadata:
   name: cluster.local-md-normal
@@ -20,3 +20,5 @@ spec:
         - name: "tag-key"
           values:
           - "*cluster.local*"
+      ami:
+          id: ami-02e4e8f09921cfe97

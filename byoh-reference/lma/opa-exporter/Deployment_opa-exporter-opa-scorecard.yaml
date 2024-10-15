@@ -1,0 +1,47 @@
+# Source: opa-scorecard/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: opa-exporter-opa-scorecard
+  labels:
+    helm.sh/chart: opa-scorecard-0.1.0
+    app.kubernetes.io/name: opa-scorecard
+    app.kubernetes.io/instance: opa-exporter
+    app.kubernetes.io/version: "v0.0.4"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: opa-scorecard
+      app.kubernetes.io/instance: opa-exporter
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: opa-scorecard
+        app.kubernetes.io/instance: opa-exporter
+    spec:
+      serviceAccountName: opa-exporter-opa-scorecard
+      securityContext:
+        {}
+      containers:
+      - name: opa-scorecard-exporter
+        securityContext:
+          {}
+        image: "mcelep/opa_scorecard_exporter:v0.0.4"
+        imagePullPolicy: IfNotPresent
+        ports:
+        - port: 8888
+          containerPort: 9141 # 컨테이너 이미지에서 고정된 포트이므로 변경 불가
+          protocol: TCP
+          name: metrics
+        livenessProbe:
+          httpGet:
+            path: /
+            port: metrics
+        readinessProbe:
+          httpGet:
+            path: /
+            port: metrics
+        resources:
+          {}

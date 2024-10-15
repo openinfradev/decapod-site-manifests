@@ -1,0 +1,27 @@
+# Source: loki-distributed/templates/gateway/service-gateway.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: loki-user-loki-distributed-gateway
+  labels:
+    helm.sh/chart: loki-distributed-0.58.0
+    app.kubernetes.io/name: loki-distributed
+    app.kubernetes.io/instance: loki-user
+    app.kubernetes.io/version: "2.6.1"
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/component: gateway
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: '*'
+    service.beta.kubernetes.io/aws-load-balancer-type: nlb
+spec:
+  type: NodePort
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+      nodePort: 30006
+      protocol: TCP
+  selector:
+    app.kubernetes.io/name: loki-distributed
+    app.kubernetes.io/instance: loki-user
+    app.kubernetes.io/component: gateway

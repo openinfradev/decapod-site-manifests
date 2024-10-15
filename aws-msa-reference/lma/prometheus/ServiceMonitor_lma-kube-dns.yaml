@@ -1,0 +1,33 @@
+# Source: kube-prometheus-stack/templates/exporters/kube-dns/servicemonitor.yaml
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: lma-kube-dns
+  namespace: lma
+  labels:
+    app: kube-prometheus-stack-kube-dns
+    
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/instance: prometheus
+    app.kubernetes.io/version: "48.3.1"
+    app.kubernetes.io/part-of: kube-prometheus-stack
+    chart: kube-prometheus-stack-48.3.1
+    release: "prometheus"
+    heritage: "Helm"
+spec:
+  jobLabel: jobLabel
+  
+  selector:
+    matchLabels:
+      app: kube-prometheus-stack-kube-dns
+      release: "prometheus"
+  namespaceSelector:
+    matchNames:
+      - "kube-system"
+  endpoints:
+  - port: http-metrics-dnsmasq
+    interval: 10s
+    bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token
+  - port: http-metrics-skydns
+    interval: 10s
+    bearerTokenFile: /var/run/secrets/kubernetes.io/serviceaccount/token

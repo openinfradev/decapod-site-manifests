@@ -17,10 +17,10 @@ spec:
     clusterConfiguration:
       apiServer:
         extraArgs:
-          cloud-provider: aws
+          cloud-provider: external
       controllerManager:
         extraArgs:
-          cloud-provider: aws
+          cloud-provider: external
       etcd:
         local:
           extraArgs:
@@ -29,10 +29,10 @@ spec:
       nodeRegistration:
         name: '{{ ds.meta_data.local_hostname }}'
         kubeletExtraArgs:
-          cloud-provider: aws
+          cloud-provider: external
     joinConfiguration:
       nodeRegistration:
         name: '{{ ds.meta_data.local_hostname }}'
         kubeletExtraArgs:
-          cloud-provider: aws
-  version: v1.26.10
+          cloud-provider: external
+  version: v1.29.8

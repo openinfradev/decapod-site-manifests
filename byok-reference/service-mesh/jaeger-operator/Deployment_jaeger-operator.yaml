@@ -1,0 +1,63 @@
+# Source: jaeger-operator/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jaeger-operator
+  namespace: tks-msa
+  labels:
+    
+    app.kubernetes.io/name: jaeger-operator
+    app.kubernetes.io/instance: jaeger-operator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      
+      app.kubernetes.io/name: jaeger-operator
+      app.kubernetes.io/instance: jaeger-operator
+  template:
+    metadata:
+      name: jaeger-operator
+      labels:
+        
+        app.kubernetes.io/name: jaeger-operator
+        app.kubernetes.io/instance: jaeger-operator
+    spec:
+      serviceAccountName: jaeger-operator
+      containers:
+        - name: jaeger-operator
+          image: "harbor.taco-cat.xyz/tks/jaeger-operator:1.35.0"
+          imagePullPolicy: IfNotPresent
+          ports:
+          - containerPort: 8383
+            name: metrics
+          - containerPort: 9443
+            name: webhook-server
+            protocol: TCP  
+          volumeMounts:
+          - mountPath: /tmp/k8s-webhook-server/serving-certs
+            name: cert
+            readOnly: true
+          args: ["start"]
+          env:
+            - name: WATCH_NAMESPACE
+              value: ""
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: OPERATOR_NAME
+              value: "jaeger-operator"
+          resources:
+            {}
+      volumes:
+      - name: cert
+        secret:
+          defaultMode: 420
+          secretName: jaeger-operator-service-cert
+      nodeSelector:
+        tks-msa: enabled

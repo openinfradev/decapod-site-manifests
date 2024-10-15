@@ -1,4 +1,3 @@
----
 # Source: cluster-api-aws/templates/aws-managed-cluster.yaml
 apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
 kind: AWSManagedCluster

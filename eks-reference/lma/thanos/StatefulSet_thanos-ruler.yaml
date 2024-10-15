@@ -31,7 +31,7 @@ spec:
         app.kubernetes.io/component: ruler
       annotations:
         checksum/objstore-configuration: 01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b
-        checksum/ruler-configuration: 0e92f4124eddfb8518a05091fbb3ae178ef2bc84da89930557fb84731f35d168
+        checksum/ruler-configuration: 6c611921af0eb2cdcfb378e1cbcb1cc488b0dc2f73b4dd4536fcf61392b6c60f
     spec:
       
       serviceAccountName: thanos-ruler

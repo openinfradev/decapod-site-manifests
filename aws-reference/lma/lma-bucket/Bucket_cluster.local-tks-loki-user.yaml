@@ -1,0 +1,13 @@
+# Source: ack-resources/templates/buckets.yaml
+apiVersion: s3.services.k8s.aws/v1alpha1
+kind: Bucket
+metadata:
+  name: cluster.local-tks-loki-user
+  namespace: taco-system
+spec:
+  name: cluster.local-tks-loki-user
+  tagging:
+    tagSet:
+    - key: services.tks/generator
+      value: tks.v2023.06.00
+

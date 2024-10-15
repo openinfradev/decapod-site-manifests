@@ -1,0 +1,18 @@
+# Source: k8ssandra-operator/charts/cass-operator/templates/leader_election_role_binding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: k8ssandra-operator-cass-operator-leader
+  labels:     
+    app.kubernetes.io/name: cass-operator
+    helm.sh/chart: cass-operator-0.40.0
+    app.kubernetes.io/instance: k8ssandra-operator
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/part-of: k8ssandra-k8ssandra-operator-tks-msa
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: k8ssandra-operator-cass-operator-leader
+subjects:
+  - kind: ServiceAccount
+    name: k8ssandra-operator-cass-operator

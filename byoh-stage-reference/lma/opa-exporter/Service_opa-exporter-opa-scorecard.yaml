@@ -1,0 +1,18 @@
+# Source: opa-scorecard/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: opa-exporter-opa-scorecard
+  labels:
+    app.kubernetes.io/name: opa-scorecard
+    app.kubernetes.io/instance: opa-exporter
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8888
+    targetPort: metrics
+    protocol: TCP
+    name: metrics
+  selector:
+    app.kubernetes.io/name: opa-scorecard
+    app.kubernetes.io/instance: opa-exporter

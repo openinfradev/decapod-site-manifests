@@ -27,4 +27,4 @@ spec:
         apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
         kind: ByoMachineTemplate
         name: cluster.local-md-taco
-      version: v1.25.11
+      version: v1.29.8

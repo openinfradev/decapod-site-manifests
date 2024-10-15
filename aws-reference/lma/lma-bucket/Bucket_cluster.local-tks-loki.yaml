@@ -10,4 +10,3 @@ spec:
     tagSet:
     - key: services.tks/generator
       value: tks.v2023.06.00
-

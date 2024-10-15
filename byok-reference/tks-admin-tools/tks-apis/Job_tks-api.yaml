@@ -1,0 +1,58 @@
+# Source: tks-apis/templates/tks-api/pre-install-job.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: tks-api
+  namespace: tks
+  labels:
+    helm.sh/chart: tks-apis-0.1.2
+    app.kubernetes.io/service: tks
+    app.kubernetes.io/name: tks-api
+    app.kubernetes.io/version: "0.1.2"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": pre-install
+    "helm.sh/hook-weight": "-5"
+spec:
+  template:
+    metadata:
+      name: tks-api
+      labels:
+        sidecar.istio.io/inject: "false"
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: pre-install-job
+          image: "bitnami/postgresql:11.12.0-debian-10-r44"
+          env:
+            - name: DB_ADMIN_USER
+              value: postgres
+            - name: PGPASSWORD
+              value: ${COMMON_PASSWORD}
+            - name: DB_NAME
+              value: tks
+            - name: DB_USER
+              value: tksuser
+            - name: DB_PASSWORD
+              value: ${COMMON_PASSWORD}
+            - name: DB_URL
+              value: ${DATABASE_HOST}
+            - name: DB_PORT
+              value: "5432"
+          command:
+            - /bin/bash
+            - -c
+            - -x
+            - |
+              # check if ${DB_NAME} database already exists.
+              psql -h ${DB_URL} -p ${DB_PORT} -U ${DB_ADMIN_USER} -lqt | cut -d \| -f 1 | grep -qw ${DB_NAME}
+              if [[ $? -ne 0 ]]; then
+                psql -h ${DB_URL} -p ${DB_PORT} -U ${DB_ADMIN_USER} -c "CREATE DATABASE ${DB_NAME};"
+              fi
+
+              # check if ${DB_USER} user already exists.
+              psql -h ${DB_URL} -p ${DB_PORT} -U ${DB_ADMIN_USER} -tc '\du' | cut -d \| -f 1 | grep -qw ${DB_USER}
+              if [[ $? -ne 0 ]]; then
+                psql -h ${DB_URL} -p ${DB_PORT} -U ${DB_ADMIN_USER} -c "create user ${DB_USER} SUPERUSER password '${DB_PASSWORD}';"
+              fi
+

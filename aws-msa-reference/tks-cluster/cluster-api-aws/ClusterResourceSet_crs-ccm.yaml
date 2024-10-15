@@ -1,0 +1,14 @@
+# Source: cluster-api-aws/templates/crs-aws-ccm.yaml
+apiVersion: addons.cluster.x-k8s.io/v1beta1
+kind: ClusterResourceSet
+metadata:
+  name: crs-ccm
+  namespace: aws-msa-reference
+spec:
+  clusterSelector:
+    matchLabels:
+      ccm: external
+  resources:
+  - kind: ConfigMap
+    name: cloud-controller-manager-addon
+  strategy: ApplyOnce

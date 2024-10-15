@@ -46,12 +46,23 @@ rules:
   - apiGroups:
       - fluentbit.fluent.io
     resources:
+      - collectors
       - fluentbits
+      - fluentbits/finalizers
       - clusterfluentbitconfigs
+      - clusterfluentbitconfigs/finalizers
       - clusterfilters
+      - clusterfilters/finalizers
       - clusterinputs
+      - clusterinputs/finalizers
       - clusteroutputs
+      - clusteroutputs/finalizers
       - clusterparsers
+      - fluentbitconfigs
+      - filters
+      - outputs
+      - parsers
+      - clusterparsers/finalizers
     verbs:
       - create
       - delete
@@ -73,6 +84,8 @@ rules:
       - filters
       - clusteroutputs
       - outputs
+      - inputs
+      - clusterinputs
     verbs:
       - create
       - delete
@@ -87,9 +100,17 @@ rules:
       - clusterrolebindings
     verbs:
       - create
+      - list
+      - get
+      - watch
+      - patch
   - apiGroups:
       - rbac.authorization.k8s.io
     resources:
       - clusterroles
     verbs:
       - create
+      - list
+      - get
+      - watch
+      - patch

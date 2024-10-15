@@ -20,9 +20,9 @@ spec:
       clusterName: cluster.local
       failureDomain: CHANGEMEb
       infrastructureRef:
-        apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+        apiVersion: infrastructure.cluster.x-k8s.io/v1beta2
         kind: AWSMachineTemplate
         name: cluster.local-md-normal
-      version: v1.26.10
+      version: v1.29.8
   selector:
         matchLabels: null

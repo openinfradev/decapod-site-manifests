@@ -20,5 +20,5 @@ spec:
         kind: AWSManagedMachinePool
         name: cluster.local-mp-normal
         namespace: eks-reference
-      version: v1.25.9
+      version: v1.29.8
 

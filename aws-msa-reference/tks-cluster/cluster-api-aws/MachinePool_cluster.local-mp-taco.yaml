@@ -26,5 +26,5 @@ spec:
         kind: AWSMachinePool
         name: cluster.local-mp-taco
         namespace: aws-msa-reference
-      version: v1.26.10
+      version: v1.29.8
 
